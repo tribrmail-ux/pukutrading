@@ -19,17 +19,23 @@ contact.html            Enquiry form and contact details
 
 ---
 
-## 1. Placeholders — two things to fill in
+## 1. Nothing left to fill in
 
-Everything else on the site is real. Find and replace these across the whole folder
-(VS Code: `Ctrl+Shift+H`):
+Every detail on the site is real. There are no `[[PLACEHOLDER]]` markers left — searching
+the folder for `[[` returns only two guard clauses in `assets/js/site.js`, which check
+whether the Formspree endpoint has been configured.
 
-| Placeholder | Replace with | Where | Times |
-|---|---|---|---|
-| `[[DOMAIN]]` | Your domain, no `https://`, no trailing slash — e.g. `pukutrading.com` | every page, `sitemap.xml`, `robots.txt` | 48 |
-| `[[OPENING HOURS]]` | e.g. `Monday to Friday, 08:00–17:00` | `contact.html` | 1 |
+**Opening hours are not shown.** The Contact page had a row for them, but rather than
+publish a placeholder it was removed. To put it back, add this to the `<ul class="details">`
+in `contact.html`:
 
-Search the folder for `[[` afterwards — there should be nothing left.
+```html
+<li>
+  <p class="k">Hours</p>
+  <p class="v" style="font-size:1rem;font-weight:400;color:var(--text)">Monday to Friday, 08:00–17:00<br>
+    <span class="muted">WhatsApp messages are read outside those hours too.</span></p>
+</li>
+```
 
 ### Details already in the site
 
@@ -154,7 +160,8 @@ The domain stays registered at Porkbun — only DNS moves.
 4. Wait for Cloudflare to report the domain active — usually minutes.
 5. **Workers & Pages → pukutrading → Domains → Add Domain** → `pukutrading.com`, then
    `www.pukutrading.com`. Cloudflare creates the records and the certificate itself.
-6. Then replace `[[DOMAIN]]` in the files and push.
+6. The site already uses `pukutrading.com` in its canonical tags, sitemap and social
+   preview URLs, so nothing needs changing once the domain resolves.
 
 The `*.workers.dev` address keeps working throughout, so you always have a link to send.
 
