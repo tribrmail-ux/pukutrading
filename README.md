@@ -3,7 +3,7 @@
 Five pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
 build step. Open a file in a text editor, change it, push it.
 
-About **55 KB per page** including the fonts, against a 500 KB target.
+About **68 KB per page** including the fonts and the logo, against a 500 KB target.
 
 ```
 index.html              Home — what Puku does, the four divisions, how it works,
@@ -45,20 +45,30 @@ it the same way:
 
 ### The logo
 
-The header and footer currently set **PUKU** as type rather than using the logo file,
-because the artwork was not available when the site was built. To use the real file:
+The master artwork lives in `assets/img/source/` and is deliberately not published —
+`.assetsignore` keeps that folder out of the deployed site. Everything the site uses is
+derived from it:
 
-1. Save it as `assets/img/puku-logo.svg` (or `.png` at roughly 400 px wide).
-2. In each of the six HTML files, replace `<a class="mark" href="index.html">PUKU</a>`
-   with:
-   ```html
-   <a class="mark" href="index.html"><img src="/assets/img/puku-logo.svg" alt="Puku Trading Trust" width="120"></a>
-   ```
-3. Do the same for `<p class="mark">PUKU</p>` in the footer, using a white version.
+```
+assets/img/source/puku-logo.png   master file, transparent background
+assets/img/puku-logo.png          header wordmark, navy, trimmed, 236px wide
+assets/img/puku-logo-light.png    footer wordmark, white, same artwork
+assets/img/apple-touch-icon.png   the logo's own P, white on navy
+assets/img/icon-192.png           same, for Android
+assets/img/icon-512.png           same, larger
+favicon.ico                       same, at 16/32/48px
+assets/img/og.png                 social preview, built from the wordmark
+```
 
-**The navy is a single CSS variable.** `--navy` at the top of `assets/css/site.css` is
-currently `#0b2c4a`, read off the logo by eye. Replace it with the exact value sampled
-from the logo file and the whole site follows — headings, footer, buttons and all.
+The wordmarks are twice the size they display at, so they stay sharp on phone screens.
+Display width is set in CSS (`.mark img`), not in the HTML.
+
+**If the logo ever changes**, replace `assets/img/source/puku-logo.png` and regenerate the
+rest — or just re-cut the files above by hand at the same sizes.
+
+**The navy is a single CSS variable.** `--navy` in `assets/css/site.css` is `#092c4d`,
+sampled from the logo file itself. Headings, the footer, buttons and links all derive from
+it, so changing that one line recolours the site.
 
 ---
 
@@ -156,7 +166,7 @@ The `*.workers.dev` address keeps working throughout, so you always have a link 
 
 ```css
 :root {
-  --navy:    #0b2c4a;   /* from the logo — everything is built on this */
+  --navy:    #092c4d;   /* sampled from the logo — everything builds on this */
   --text:    #1e2733;   /* body text                                   */
   --muted:   #5c6675;   /* secondary text                              */
   --line:    #e2e6ec;   /* hairlines                                   */

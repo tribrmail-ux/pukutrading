@@ -28,11 +28,10 @@
 /* --- Tokens --------------------------------------------------------------- */
 
 :root {
-  /* Logo navy. Replace with the exact value sampled from the logo file —
-     it is the only colour the rest of the palette depends on.              */
-  --navy: #0b2c4a;
-  --navy-deep: #071d31;
-  --navy-tint: #f2f5f8;
+  /* Logo navy, sampled from puku-logo.png. Everything else is built on it. */
+  --navy: #092c4d;
+  --navy-deep: #061d33;
+  --navy-tint: #f0f4f8;
 
   --white: #ffffff;
   --surface: #f6f7f9;
@@ -194,17 +193,15 @@ a:hover { color: var(--accent); }
   min-height: 5rem;
 }
 
-/* The wordmark. Replace with the supplied logo file when it is available —
-   see the README.                                                          */
+/* The wordmark, from assets/img/puku-logo.png. The header uses the navy
+   version and the footer the white one; both are the same artwork.         */
 .mark {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--navy);
-  text-decoration: none;
-  line-height: 1;
   display: inline-block;
+  line-height: 0;
+  margin: 0;
 }
+.mark img { width: 118px; height: auto; }
+.foot .mark img { width: 132px; }
 
 .nav ul {
   list-style: none;
@@ -511,7 +508,7 @@ a:hover { color: var(--accent); }
 }
 .foot a { color: var(--white); text-decoration: none; }
 .foot a:hover { text-decoration: underline; }
-.foot .mark { color: var(--white); margin-bottom: 1.25rem; }
+.foot .mark { margin-bottom: 1.35rem; }
 .foot__grid {
   display: grid;
   gap: 2.5rem 4rem;
