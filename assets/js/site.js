@@ -1,101 +1,94 @@
 /* ==========================================================================
    Puku Trading Trust — site.js
-   Vanilla JS, no dependencies. Everything here is progressive enhancement:
-   if this file fails to load, every page and both forms still work.
+   Vanilla JS, no dependencies. Everything here is an enhancement: if this
+   file fails to load, every page and both forms still work.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   CONFIG — the only things you normally need to change.
-   Also see the placeholder checklist in README.md, because the phone
-   number, e-mail and Formspree action are written into the HTML too so the
-   site keeps working with JavaScript switched off.
+   CONFIG — the things you are likely to change.
+   The WhatsApp number and e-mail are also written into the HTML so the site
+   works with JavaScript switched off. See the README before editing them.
    -------------------------------------------------------------------------- */
 
 var PUKU = {
-  /* Formspree form ID. Create a form at https://formspree.io, copy the ID
-     out of the endpoint it gives you (the part after /f/), and paste it here
-     AND into the action="" of every <form class="enquiry-form"> in the HTML. */
-  FORMSPREE_ENDPOINT: "https://formspree.io/f/[[FORMSPREE ID]]",
+  /* Formspree form ID. Create a form at https://formspree.io and paste the ID
+     (the part after /f/) here AND into the action="" of the two forms in
+     index.html and contact.html.                                            */
+  FORMSPREE_ENDPOINT: "https://formspree.io/f/mwleowok",
 
-  /* WhatsApp number in full international format, digits only.
-     Namibia is country code 264 and you drop the leading 0:
-     081 234 5678 becomes 264812345678                                      */
-  WHATSAPP_NUMBER: "[[WHATSAPP NUMBER]]",
+  /* WhatsApp number, digits only, full international format. */
+  WHATSAPP_NUMBER: "264812545797",
 
   /* Pre-filled WhatsApp message. */
   WHATSAPP_MESSAGE: "Hi Puku Trading, I'd like a quote for ",
 
-  /* Fallback inbox, used for the mailto: link under each form. */
-  EMAIL: "[[EMAIL]]"
+  EMAIL: "pukutrading@gmail.com"
 };
 
 (function () {
   "use strict";
 
-  /* ---- Mobile navigation ------------------------------------------------ */
+  /* ---- Navigation ------------------------------------------------------- */
 
-  var toggle = document.querySelector(".navtoggle");
+  var btn = document.querySelector(".navbtn");
   var nav = document.getElementById("nav");
 
-  if (toggle && nav) {
-    toggle.hidden = false;
-    toggle.addEventListener("click", function () {
+  if (btn && nav) {
+    btn.hidden = false;
+    btn.addEventListener("click", function () {
       var open = nav.getAttribute("data-open") === "true";
       nav.setAttribute("data-open", open ? "false" : "true");
-      toggle.setAttribute("aria-expanded", open ? "false" : "true");
-      toggle.textContent = open ? "Menu" : "Close";
+      btn.setAttribute("aria-expanded", open ? "false" : "true");
+      btn.textContent = open ? "Menu" : "Close";
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && nav.getAttribute("data-open") === "true") {
-        toggle.click();
-        toggle.focus();
+        btn.click();
+        btn.focus();
       }
     });
   }
 
-  /* ---- WhatsApp links --------------------------------------------------- */
-  /* The HTML already carries a working wa.me link. This only keeps every
-     WhatsApp link on the page in step with the CONFIG above, and adds the
-     name of the page the visitor was reading to the pre-filled message.    */
+  /* ---- WhatsApp --------------------------------------------------------- */
+  /* The HTML already carries a working wa.me link. This keeps every link in
+     step with CONFIG and adds the page subject to the pre-filled message.   */
 
-  var waNumber = String(PUKU.WHATSAPP_NUMBER).replace(/[^0-9]/g, "");
-  if (waNumber) {
-    var subject = document.body.getAttribute("data-wa-subject") || "";
+  var number = String(PUKU.WHATSAPP_NUMBER).replace(/[^0-9]/g, "");
+  if (number) {
+    var subject = document.body.getAttribute("data-subject") || "";
     var text = PUKU.WHATSAPP_MESSAGE + subject;
     var links = document.querySelectorAll("[data-wa]");
     for (var i = 0; i < links.length; i++) {
       links[i].setAttribute(
         "href",
-        "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(text)
+        "https://wa.me/" + number + "?text=" + encodeURIComponent(text)
       );
     }
   }
 
   /* ---- Enquiry forms ---------------------------------------------------- */
-  /* Without JS the form does a normal POST to Formspree and Formspree shows
-     its own thank-you page. With JS we submit in the background and keep the
-     visitor on the page, which matters on a slow connection.                */
+  /* Without JS the form posts normally and Formspree shows its own thank-you
+     page. With JS it submits in the background, which matters on a slow
+     connection.                                                             */
 
-  var forms = document.querySelectorAll(".enquiry-form");
+  var forms = document.querySelectorAll(".enquiry");
 
   Array.prototype.forEach.call(forms, function (form) {
-    var status = form.parentNode.querySelector(".formstatus");
+    var status = form.parentNode.querySelector(".status");
     var button = form.querySelector("[type=submit]");
 
-    /* Keep the action in step with CONFIG if it has been filled in there. */
     if (PUKU.FORMSPREE_ENDPOINT.indexOf("[[") === -1) {
       form.setAttribute("action", PUKU.FORMSPREE_ENDPOINT);
     }
 
-    /* Record which page the enquiry came from. */
-    var src = form.querySelector("[name=_source_page]");
-    if (src) src.value = document.title;
+    var page = form.querySelector("[name=_page]");
+    if (page) page.value = document.title;
 
     form.addEventListener("submit", function (e) {
       var action = form.getAttribute("action") || "";
 
-      /* Endpoint not configured yet: let the browser do whatever it would
-         normally do rather than swallowing the visitor's enquiry. */
+      /* Not configured yet, or no fetch: let the browser do what it would
+         normally do rather than swallowing the enquiry. */
       if (action.indexOf("[[") !== -1 || !window.fetch || !window.FormData) return;
 
       e.preventDefault();
@@ -114,7 +107,7 @@ var PUKU = {
           if (res.ok) {
             form.reset();
             say(
-              "Thank you — your enquiry is in. We will come back to you with a quotation. If it is urgent, send the same details on WhatsApp.",
+              "Thank you — your enquiry has been sent. We will come back to you with a quotation. If it is urgent, send the same details on WhatsApp.",
               "ok"
             );
           } else {
@@ -132,7 +125,7 @@ var PUKU = {
 
     function fail() {
       say(
-        "That did not go through. Please send your enquiry on WhatsApp or by e-mail instead — the links are just below.",
+        "That did not go through. Please send your enquiry on WhatsApp or by e-mail instead — both are linked below.",
         "error"
       );
     }
@@ -145,33 +138,32 @@ var PUKU = {
     }
   });
 
-  /* ---- The one piece of motion on the site ------------------------------ */
-  /* The strength bar settles from label strength down to measured strength
-     the first time it comes into view. Static without JS, and skipped
-     entirely when the visitor has asked for reduced motion.                 */
+  /* ---- The single piece of motion --------------------------------------- */
+  /* The shortfall bar draws once when it first comes into view. Static
+     without JS, and skipped when reduced motion is requested.               */
 
-  var scale = document.querySelector(".strength");
+  var gauge = document.querySelector(".gauge");
   var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (scale && !still && "IntersectionObserver" in window) {
-    var seen = new IntersectionObserver(
+  if (gauge && !still && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            entry.target.classList.add("strength--anim");
-            seen.unobserve(entry.target);
+            entry.target.classList.add("gauge--seen");
+            io.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.4 }
     );
-    seen.observe(scale);
+    io.observe(gauge);
   }
 
-  /* ---- Year in the footer ----------------------------------------------- */
+  /* ---- Footer year ------------------------------------------------------ */
 
-  var year = document.querySelectorAll("[data-year]");
-  for (var y = 0; y < year.length; y++) {
-    year[y].textContent = new Date().getFullYear();
+  var years = document.querySelectorAll("[data-year]");
+  for (var y = 0; y < years.length; y++) {
+    years[y].textContent = new Date().getFullYear();
   }
 })();

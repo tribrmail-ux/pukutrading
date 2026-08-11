@@ -1,324 +1,234 @@
 # Puku Trading Trust — website
 
-A static marketing website. Plain HTML, CSS and vanilla JavaScript. No build step, no
-npm, no framework. Open a file in any text editor, change it, upload it again.
+Five pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
+build step. Open a file in a text editor, change it, push it.
 
-**Total page weight is roughly 90–110 KB per page including fonts** — well inside the
-500 KB target, and most of that is cached after the first page view.
+About **68 KB per page** including the fonts and the logo, against a 500 KB target.
+
+```
+index.html              Home — what Puku does, the four divisions, how it works,
+                        the agent model, enquiry form
+chemicals.html          Industrial chemicals, by application, plus the chlorine
+                        strength verification service
+building-roofing.html   Roofing and building materials
+agriculture.html        Farm and livestock supplies
+contact.html            Enquiry form and contact details
+404.html                Shown for a bad URL (not part of the five pages, but the
+                        host needs it)
+```
 
 ---
 
-## 1. Before you publish — fill in the placeholders
+## 1. Placeholders — two things to fill in
 
-Everywhere real information was missing, the site contains a marked placeholder such as
-`[[PHONE]]`. **Find and replace each one across every file** (most editors do this with
-Find in Files / Replace in Folder — VS Code: `Ctrl+Shift+H`).
+Everything else on the site is real. Find and replace these across the whole folder
+(VS Code: `Ctrl+Shift+H`):
 
-Work through this list top to bottom. Nothing else needs changing to go live.
-
-| Placeholder | Put in | Appears in | Times |
+| Placeholder | Replace with | Where | Times |
 |---|---|---|---|
-| `[[DOMAIN]]` | Your domain, no `https://` and no trailing slash, e.g. `pukutrading.com` | every page, `sitemap.xml`, `robots.txt` | 72 |
-| `[[EMAIL]]` | Enquiry inbox, e.g. `info@pukutrading.com` | every page, `assets/js/site.js` | 41 |
-| `[[PHONE]]` | Phone in international format, e.g. `+264 81 234 5678` | every page | 40 |
-| `[[WHATSAPP NUMBER]]` | WhatsApp number, **digits only, no `+`, no spaces**, e.g. `264812345678` | every page, `assets/js/site.js` | 18 |
-| `[[WHATSAPP DISPLAY]]` | The same number written for humans, e.g. `081 234 5678` | `contact.html` | 1 |
-| `[[FORMSPREE ID]]` | Your Formspree form ID (see section 3) | every page, `assets/js/site.js` | 8 |
-| `[[TRUST REG NO]]` | Trust registration number as registered | footer of every page, `about.html`, `how-we-work.html`, `contact.html` | 12 |
-| `[[TRUSTEE NAME]]` | Name of the trustee | `about.html` | 1 |
-| `[[STREET ADDRESS]]` | Physical street address in Gobabis | `about.html`, `contact.html`, structured data | 10 |
-| `[[POSTAL ADDRESS]]` | Postal address / P.O. Box | `contact.html` | 1 |
-| `[[OPENING HOURS]]` | Human-readable hours, e.g. `Monday to Friday, 08:00–17:00` | `contact.html` | 1 |
-| `[[OPENING TIME]]` | Opening time in 24-hour form for Google, e.g. `08:00` | structured data on every page | 8 |
-| `[[CLOSING TIME]]` | Closing time in 24-hour form, e.g. `17:00` | structured data on every page | 8 |
+| `[[DOMAIN]]` | Your domain, no `https://`, no trailing slash — e.g. `pukutrading.com` | every page, `sitemap.xml`, `robots.txt` | 48 |
+| `[[OPENING HOURS]]` | e.g. `Monday to Friday, 08:00–17:00` | `contact.html` | 1 |
 
-To confirm you have caught them all, search the whole folder for `[[` — there should be
-no results left.
+Search the folder for `[[` afterwards — there should be nothing left.
 
-### Also check these before publishing
+### Details already in the site
 
-Three things were written from general knowledge and are worth a glance:
+These are used throughout and are correct as written. If any changes, search and replace
+it the same way:
 
-1. **The distances on the home page and About page** — Windhoek `≈205 km` and Buitepos
-   `≈110 km` from Gobabis. Correct them if your figures differ.
-2. **"English or Afrikaans, whichever suits you"** on `contact.html` and
-   `agriculture.html`. Remove it if that is not accurate.
-3. **`agriculture.html` and `chemicals.html` list product categories generically.** No
-   supplier, manufacturer or brand is named anywhere as a partner or principal. The one
-   brand word on the site is "Chromadek" in `building-roofing.html`, used only to
-   describe a coated-steel sheet type, phrased as "Chromadek and equivalent coated
-   steel". Delete it if you would rather name no brand at all.
+- **Puku Trading Trust**, Trust **T 65/2018** (footer only, small)
+- **91 Nelson Mandela Avenue, Windhoek, Namibia**
+- **+264 81 254 5797** — WhatsApp and phone. In links it appears as `264812545797`
+  (WhatsApp, digits only) and `+264812545797` (`tel:`)
+- **pukutrading@gmail.com**
 
----
+### The logo
 
-## 2. Deploy to Cloudflare
+The master artwork lives in `assets/img/source/` and is deliberately not published —
+`.assetsignore` keeps that folder out of the deployed site. Everything the site uses is
+derived from it:
 
-The site is hosted on Cloudflare Workers, built straight from this GitHub repository.
-Every push to `main` redeploys it — there is nothing to upload by hand.
+```
+assets/img/source/puku-logo.png   master file, transparent background
+assets/img/puku-logo.png          header wordmark, navy, trimmed, 236px wide
+assets/img/puku-logo-light.png    footer wordmark, white, same artwork
+assets/img/apple-touch-icon.png   the logo's own P, white on navy
+assets/img/icon-192.png           same, for Android
+assets/img/icon-512.png           same, larger
+favicon.ico                       same, at 16/32/48px
+assets/img/og.png                 social preview, built from the wordmark
+```
 
-### First-time setup
+The wordmarks are twice the size they display at, so they stay sharp on phone screens.
+Display width is set in CSS (`.mark img`), not in the HTML.
 
-1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Import a repository**.
-2. Choose `tribrmail-ux/pukutrading`.
-3. Settings:
-   - **Project name**: `pukutrading`
-   - **Build command**: leave empty (there is no build)
-   - **Deploy command**: `npx wrangler deploy`
-   - **Production branch**: `main`
-4. **Deploy**. In under a minute the site is live at
-   `pukutrading.<your-subdomain>.workers.dev`.
+**If the logo ever changes**, replace `assets/img/source/puku-logo.png` and regenerate the
+rest — or just re-cut the files above by hand at the same sizes.
 
-`wrangler.jsonc` in this repo tells Cloudflare what to publish: the whole folder, with
-no server-side code, and `404.html` for unknown URLs. `.assetsignore` keeps the git
-plumbing and this README out of the published output.
-
-### Updating the site afterwards
-
-Edit a file, commit, push to `main`. Cloudflare notices and redeploys within a minute or
-so. Watch it under **Workers & Pages → pukutrading → Deployments**.
-
-**The first build only starts on the next push.** When a repository is connected to an
-existing Worker, Cloudflare says "You can now push a commit to your Git repository to
-start your first build" and then waits — it does not build the commit that is already at
-the top of `main`. Push anything, however small, and the first build runs.
-
-If you would rather not use git at all, you can drag the folder into Cloudflare's
-**Direct Upload** option instead, but then the repository and the live site drift apart —
-pick one way and stay with it.
-
-### Other hosts
-
-Nothing here is Cloudflare-specific except `wrangler.jsonc`. The site is a plain folder of
-files and will run on Netlify, GitHub Pages, Vercel or ordinary shared hosting over FTP —
-upload everything, keeping the folder structure intact. The `_headers` file, which sets
-cache times, is understood by both Cloudflare and Netlify and ignored harmlessly
-elsewhere.
+**The navy is a single CSS variable.** `--navy` in `assets/css/site.css` is `#092c4d`,
+sampled from the logo file itself. Headings, the footer, buttons and links all derive from
+it, so changing that one line recolours the site.
 
 ---
 
-## 3. Wire up the enquiry form (Formspree)
+## 2. Deploying
 
-The form works without any JavaScript, so this is the only step that matters for
-receiving enquiries.
+The site is on **Cloudflare**, built from this GitHub repository. Push to `main` and it
+redeploys itself within a minute or two. Watch it under **Workers & Pages → pukutrading →
+Deployments**.
 
-1. Create a free account at <https://formspree.io>.
-2. Create a new form and choose the e-mail address enquiries should arrive at.
-3. Formspree gives you an endpoint like `https://formspree.io/f/xdorzabc`. The part after
-   `/f/` — `xdorzabc` — is your form ID.
-4. Replace `[[FORMSPREE ID]]` everywhere with that ID.
-5. Submit the form once yourself. Formspree sends a confirmation e-mail the first time;
-   click the link in it or nothing will come through.
+`wrangler.jsonc` tells Cloudflare what to publish — the whole folder, no server-side
+code, and `404.html` for unknown URLs. Do not delete it; the deployment fails without it.
+`.assetsignore` keeps the git plumbing and this README out of the published output.
 
-**File uploads.** The form has an optional file field for a spec sheet or a photo, and
-the form is already set up with `enctype="multipart/form-data"` so uploads work.
-Formspree only accepts file uploads on their paid plans — on the free plan the enquiry
-still arrives, the attachment is simply dropped. If you stay on the free plan, either
-tell people to WhatsApp the photo, or delete the file field from each page (search for
-`Spec sheet or photo`).
+**The first build only starts on the next push.** When a repository is first connected,
+Cloudflare says "You can now push a commit to your Git repository to start your first
+build" and then waits — it does not build the commit already at the top of `main`. Push
+anything, however small, and it runs.
 
-**If the form is ever down**, every page also carries a working `mailto:` link and the
-WhatsApp link directly under the form, so nobody is left with no way to reach you.
-
-**Changing the endpoint later:** it appears in two kinds of place — the `action="..."` on
-each `<form class="enquiry-form">` in the eight HTML files, and `FORMSPREE_ENDPOINT` at
-the top of `assets/js/site.js`. Update both. (If they ever disagree, the value in
-`site.js` wins for visitors with JavaScript, and the one in the HTML wins for those
-without.)
+If you ever need to deploy without git: **Workers & Pages → Create → Pages → Upload
+assets**, and drag the folder in.
 
 ---
 
-## 4. Changing the WhatsApp number or the pre-filled message
+## 3. The enquiry form (Formspree)
 
-Open `assets/js/site.js`. Everything adjustable is in the `PUKU` block at the top:
+There is a form on the Home page and on Contact. Both work without JavaScript; with it,
+they submit in the background so the visitor stays on the page.
+
+**This is already wired up.** The form ID is `mwleowok`, and it appears in three places:
+the `action="..."` on the form in `index.html` and in `contact.html`, and
+`FORMSPREE_ENDPOINT` in `assets/js/site.js`. If you ever move to a different form, change
+all three.
+
+The one thing still to do: **submit the form once yourself**. Formspree sends a
+confirmation e-mail the first time a form is used, and until you click the link in it,
+nothing comes through.
+
+**File uploads.** The optional attachment field works, but Formspree only accepts uploads
+on their paid plans. On the free plan the enquiry still arrives and the attachment is
+dropped — so either tell people to send photographs on WhatsApp, or remove the field
+(search for `Specification or photo`).
+
+If the form ever fails, every page still carries the WhatsApp and `mailto:` links
+directly beneath it.
+
+---
+
+## 4. WhatsApp
+
+`assets/js/site.js` starts with the config block:
 
 ```js
 var PUKU = {
-  FORMSPREE_ENDPOINT: "https://formspree.io/f/xdorzabc",
-  WHATSAPP_NUMBER:    "264812345678",
+  FORMSPREE_ENDPOINT: "https://formspree.io/f/mwleowok",
+  WHATSAPP_NUMBER:    "264812545797",
   WHATSAPP_MESSAGE:   "Hi Puku Trading, I'd like a quote for ",
-  EMAIL:              "info@pukutrading.com"
+  EMAIL:              "pukutrading@gmail.com"
 };
 ```
 
-The number must be digits only, in full international format: Namibia is country code
-`264` and you drop the leading zero, so `081 234 5678` becomes `264812345678`.
+The number is digits only, full international format — Namibia is `264` and the leading
+zero drops, so `081 254 5797` becomes `264812545797`.
 
-The floating WhatsApp button also picks up the page it was clicked from, so a visitor on
-the chemicals page starts a chat reading *"Hi Puku Trading, I'd like a quote for
-chemicals: "*. That comes from the `data-wa-subject` attribute on each page's `<body>`
-tag if you want to change the wording.
+The floating button picks up which page it was clicked from, so someone on the chemicals
+page opens WhatsApp with *"Hi Puku Trading, I'd like a quote for chemicals: "* already
+typed. That comes from `data-subject` on each page's `<body>` tag.
 
-Because the site must work with JavaScript disabled, the number is **also** written into
-the `wa.me/...` links in the HTML — which is why `[[WHATSAPP NUMBER]]` has to be replaced
-in the HTML files as well, not only here.
+Because the site must work with JavaScript off, the number is **also** written into the
+`wa.me/` links in the HTML. Change it in both places.
 
 ---
 
-## 5. Pointing the Porkbun domain at Cloudflare
+## 5. Pointing the domain (registered at Porkbun) at Cloudflare
 
-The domain is registered at Porkbun. To use it on Cloudflare Workers, the domain's DNS
-has to be handled by Cloudflare — which means changing its nameservers at Porkbun. The
-domain stays registered at Porkbun and you keep renewing it there; only DNS moves.
+The domain stays registered at Porkbun — only DNS moves.
 
-### Step 1 — add the domain to Cloudflare
+1. **Cloudflare → Add a domain** → your domain → Free plan. It imports the existing DNS;
+   check the list, especially any `MX` records, or e-mail on the domain stops when the
+   nameservers change. Cloudflare gives you two nameservers.
+2. **Turn DNSSEC off at Porkbun first.** Changing nameservers with a DNSSEC record on file
+   takes the domain offline entirely and gives you no useful error.
+3. **Porkbun → Domain Management → your domain → Authoritative Nameservers → Edit.**
+   Replace Porkbun's with Cloudflare's two.
+4. Wait for Cloudflare to report the domain active — usually minutes.
+5. **Workers & Pages → pukutrading → Domains → Add Domain** → `pukutrading.com`, then
+   `www.pukutrading.com`. Cloudflare creates the records and the certificate itself.
+6. Then replace `[[DOMAIN]]` in the files and push.
 
-1. Cloudflare dashboard → **Add a domain** → type the domain → **Free** plan.
-2. Cloudflare scans the existing DNS and shows what it found. **Read this list.** If
-   there are `MX` records — anything to do with e-mail on the domain, including Porkbun's
-   free e-mail forwarding — make sure they are in the list. Anything missing here stops
-   working the moment the nameservers change, and it must be re-added by hand.
-3. Cloudflare gives you **two nameservers**, something like `ana.ns.cloudflare.com` and
-   `bob.ns.cloudflare.com`. Copy them.
-
-### Step 2 — change the nameservers at Porkbun
-
-1. **Turn DNSSEC off first** if it is on: Porkbun → the domain → DNSSEC → remove any
-   records. Changing nameservers while a DNSSEC record is on file makes the domain stop
-   resolving completely, and it is a miserable thing to debug.
-2. Porkbun → **Domain Management** → the domain → **Authoritative Nameservers** →
-   **Edit**.
-3. Delete Porkbun's nameservers, enter Cloudflare's two, save.
-4. Cloudflare e-mails you when the domain becomes active. Usually minutes; occasionally a
-   few hours. You can press **Check nameservers now** in Cloudflare to hurry it along.
-
-### Step 3 — attach the domain to the site
-
-Once Cloudflare shows the domain as active:
-
-1. **Workers & Pages** → `pukutrading` → **Settings** → **Domains & Routes** → **Add** →
-   **Custom domain**.
-2. Enter the bare domain, e.g. `pukutrading.com`. Add `www.pukutrading.com` the same way.
-3. Cloudflare creates the DNS records and issues the HTTPS certificate itself. Nothing to
-   configure by hand.
-
-Wait for the padlock to appear in the browser before printing the address on anything.
-
-### Step 4 — then fix the placeholders
-
-Replace `[[DOMAIN]]` throughout the site with the real domain, commit and push. That
-makes the canonical tags, the sitemap and the WhatsApp and Facebook link previews point
-at the right place.
-
-### While you are waiting
-
-The `*.workers.dev` address from section 2 works the whole time. The site is genuinely
-online there — send that link to anyone who needs to see it before the domain resolves.
+The `*.workers.dev` address keeps working throughout, so you always have a link to send.
 
 ---
 
-## 6. What is in the folder
+## 6. Editing
 
-```
-index.html              Home
-chemicals.html          Industrial chemicals — the deepest page, includes the
-                        chlorine strength verification service in full
-building-roofing.html   Building & roofing materials
-agriculture.html        Agricultural & farm supplies
-how-we-work.html        The process, and how the agent model affects price
-about.html              The trust, Gobabis, what an agent is
-contact.html            Contact details, enquiry form, service area
-404.html                Shown for a bad URL
-
-sitemap.xml             Search engine sitemap — update the dates if you edit pages
-robots.txt              Allows all crawlers, points at the sitemap
-site.webmanifest        Icon and colour information for phones
-favicon.ico             Browser tab icon
-_headers                Caching and security headers (read by Cloudflare and Netlify,
-                        ignored harmlessly by other hosts)
-wrangler.jsonc          Tells Cloudflare what to publish. Do not delete it — the
-                        deployment fails without it
-.assetsignore           Files in this folder that must NOT be published
-
-assets/css/site.css     The entire stylesheet. Colours are at the top under :root
-assets/js/site.js       Config block, mobile menu, form handling, one animation
-assets/fonts/           Self-hosted subsetted fonts (53 KB total) + their licences
-assets/img/og.png       Social sharing preview image (1200×630)
-assets/img/icon*.png    App and tab icons
-assets/img/icon.svg     Vector icon
-```
-
-### Editing a page
-
-Every page is built from the same visible parts: a header, one or more sections, an
-enquiry form, and a footer. If you copy a section from one page to another it will look
-right, because all the styling comes from `assets/css/site.css`.
-
-The enquiry form is deliberately duplicated in each HTML file rather than injected by
-JavaScript, so that it still works if a script fails to load. **If you change the form,
-change it in all eight files.**
-
-### Changing the colours
-
-At the top of `assets/css/site.css`:
+**Colours** live at the top of `assets/css/site.css`:
 
 ```css
 :root {
-  --iodine:   #0e1a21;   /* near-black used for text and dark bands */
-  --galv:     #4e5f67;   /* steel grey for labels and metadata      */
-  --sheet:    #e8e6df;   /* page background                          */
-  --chalk:    #fcfbf8;   /* panels and cards                         */
-  --endpoint: #0f6c9c;   /* links and markers                        */
-  --signal:   #b8390f;   /* the accent — used sparingly on purpose   */
+  --navy:    #092c4d;   /* sampled from the logo — everything builds on this */
+  --text:    #1e2733;   /* body text                                   */
+  --muted:   #5c6675;   /* secondary text                              */
+  --line:    #e2e6ec;   /* hairlines                                   */
+  --surface: #f6f7f9;   /* tinted section backgrounds                  */
+  --accent:  #a85a0e;   /* the only accent — used on one thing         */
 }
 ```
 
-Change a value here and it changes everywhere. If you replace `--signal` with something
-lighter, check that white text on it is still readable.
+Change a value here and it changes everywhere. If you replace `--accent`, check that
+white text still reads on it.
+
+**The form is duplicated** in `index.html` and `contact.html` rather than injected by
+JavaScript, so that it still works if a script fails. Change one, change the other.
+
+**Adding a section**: copy an existing `<section class="section">` block. The home page is
+deliberately five sections and no more — if you add a sixth, consider what comes off.
 
 ---
 
-## 7. Accuracy rules the site was written to
+## 7. What the site does not say
 
-These constraints are baked into the copy. Keep to them when you edit:
+The copy was written to these constraints. Keep them if you edit:
 
-- **No supplier, manufacturer or brand is named as a principal, partner or agency.**
-  Sourcing is described generically: "established South African manufacturers".
-- **No claim of stock, warehousing, a fleet or a team.** The site says "we source and
-  deliver" and states plainly that Puku holds no stock.
-- **No certifications or memberships** — no ISO, SABS or SANS claims anywhere.
-- **No invented numbers**: no client counts, no years of experience, no testimonials, no
-  statistics. The only figures on the site are the two road distances and `12.5 %`, which
-  is a standard commercial hypochlorite strength used as an example, not a claim about
-  any customer's product.
-- **No prices and no delivery times.** Everything is "quoted per enquiry" and the timing
-  section explains honestly why a fixed number of days cannot be promised.
-- **The chlorine verification is described as a field titration, not a laboratory
-  certificate**, and the page says so explicitly.
+- No supplier, manufacturer or brand is named as a principal or partner.
+- No claim of stock, warehousing, a fleet, staff or years of experience.
+- No certifications — none are held.
+- No invented statistics, client counts or testimonials.
+- No prices and no delivery times.
+- The chlorine verification is described as a field titration and explicitly not as a
+  laboratory certificate.
+
+The only figures on the site are the bars in the verification section, captioned as an
+illustration rather than a measurement.
 
 ---
 
 ## 8. Search engines
 
-After the domain is live:
+Once the domain is live:
 
 1. Add the site to [Google Search Console](https://search.google.com/search-console) and
    submit `https://yourdomain/sitemap.xml`.
-2. Create a **Google Business Profile** for Puku Trading Trust in Gobabis. For local
-   searches like "chemical supplier Gobabis" this does more than anything on the website
-   itself. Use exactly the same business name, address and phone number as the site.
-3. The pages already carry LocalBusiness structured data with the address, service area
-   and opening hours. It is filled from the placeholders above, so it is only correct
-   once you have replaced them.
+2. Create a **Google Business Profile** for Puku Trading Trust at the Windhoek address.
+   For "chemical supplier Windhoek" this matters more than anything on the site itself.
+   Use exactly the same name, address and number as the site.
+3. LocalBusiness structured data is already on every page, using the real address. It only
+   becomes correct once `[[DOMAIN]]` is replaced.
 
-Page titles and descriptions target the terms the business actually wants: *industrial
-chemicals Namibia*, *water treatment chemicals Namibia*, *chemical supplier Windhoek*,
-*roofing sheets Gobabis*, *farm supplies Omaheke*. They live in the `<title>` and
-`<meta name="description">` tags at the top of each file if you want to adjust them.
+Titles and descriptions target *industrial chemicals Namibia*, *chemical supplier
+Windhoek*, *roofing sheets Namibia*, *water treatment chemicals Namibia*. They are in the
+`<title>` and `<meta name="description">` at the top of each file.
 
 ---
 
-## 9. Accessibility and performance notes
+## 9. Accessibility and performance
 
-Worth preserving if you edit:
-
-- Every image and icon has alternative text or is marked decorative.
-- Headings run in order — one `<h1>` per page, then `<h2>`, then `<h3>`.
-- Keyboard focus is visible on every interactive element, and there is a "skip to
-  content" link.
-- Text contrast meets WCAG AA against its background.
-- The single animation (the strength bar) is switched off automatically for anyone whose
-  device asks for reduced motion.
-- Fonts are self-hosted and subsetted, so no request goes to Google Fonts and nothing
-  external can block the page from rendering.
-- There are no third-party scripts, no tracker, no cookie banner, because there are no
-  cookies. If you add analytics later, that changes — you will need a privacy note.
+- One `<h1>` per page, headings in order, no skipped levels.
+- Every form field has a label; keyboard focus is visible; there is a skip link.
+- All text meets WCAG AA contrast against its background.
+- One animation on the whole site — the shortfall bar in the verification section — and it
+  is switched off for anyone whose device asks for reduced motion.
+- Fonts are self-hosted and subsetted (24 KB), so nothing is requested from Google Fonts
+  and no external request can block rendering.
+- No third-party scripts, no analytics, no cookies, so no cookie banner is needed. Adding
+  analytics later changes that.
