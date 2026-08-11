@@ -28,7 +28,8 @@
 
 <link rel="preload" href="/assets/fonts/instrument-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/instrument-bold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v=3">
+<link rel="preload" href="/assets/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css?v=4">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -62,183 +63,276 @@
 </script>
 </head>
 <body data-subject="chemicals: ">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="puku" viewBox="8 8 1608 444"><path fill="currentColor" fill-rule="evenodd" d="M558 450C556 449 550 448 545 448C536 447 528 446 512 441C508 440 504 440 503 440C502 440 500 439 498 438C496 437 492 435 490 434C474 427 466 422 451 410C438 400 428 387 418 366C413 353 408 332 407 312C405 288 405 13 407 12C409 10 494 10 495 12C496 13 497 56 497 159C497 272 497 306 498 310C499 313 500 318 501 321C504 334 513 349 523 358C530 364 542 370 552 373C560 376 591 376 599 373C602 372 606 371 608 371C610 371 614 370 615 369C617 368 620 367 623 365C633 361 646 349 650 341C651 339 653 335 654 334C657 327 659 316 660 305C661 298 662 243 662 154C662 45 662 13 663 12C664 10 750 10 751 12C752 13 752 45 752 153C752 231 752 300 752 308C750 328 747 345 740 362C739 366 737 370 736 372C735 374 734 376 734 377C733 377 732 380 730 383C726 391 717 401 708 410C701 417 692 424 691 424C690 424 689 424 689 425C686 427 670 435 663 437C660 438 655 440 652 441C649 443 646 444 645 444C644 444 642 444 639 445C637 446 631 447 625 448C620 448 614 449 612 450C607 452 563 452 558 450ZM1420 450C1418 449 1412 448 1407 448C1398 447 1389 446 1374 441C1370 440 1366 440 1366 440C1365 440 1362 439 1360 437C1357 436 1353 434 1351 433C1335 426 1321 418 1309 407C1303 401 1294 391 1291 386C1290 384 1288 381 1287 379C1279 366 1273 347 1270 324C1268 310 1267 307 1268 161L1268 11L1313 11C1353 11 1357 11 1358 12C1359 14 1360 45 1360 160C1360 293 1360 308 1361 313C1362 316 1363 321 1363 323C1365 332 1374 347 1384 357C1391 363 1403 370 1412 372C1414 373 1418 374 1420 375C1426 376 1456 375 1461 373C1464 372 1467 372 1468 372C1472 372 1488 365 1494 360C1502 354 1509 347 1512 340C1516 332 1520 325 1520 323C1520 322 1520 319 1521 316C1523 312 1523 302 1524 162L1524 11L1566 11C1588 11 1609 11 1611 11L1616 12L1616 158C1616 283 1615 305 1614 308C1613 311 1612 316 1612 321C1611 334 1606 353 1601 364C1596 377 1592 383 1586 392C1574 408 1562 419 1545 429C1541 430 1538 432 1537 432C1536 432 1534 433 1533 434C1533 435 1532 436 1531 436C1530 436 1528 436 1526 437C1516 442 1499 446 1487 448C1481 448 1476 449 1474 450C1469 452 1425 452 1420 450ZM12 439C12 438 12 341 12 223L12 7L119 8C224 8 226 8 236 10C255 14 262 16 273 23C297 35 314 52 325 76C329 82 332 91 333 95C340 119 340 117 340 143C340 166 340 169 338 177C333 194 331 199 325 211C324 213 324 215 324 215C324 216 321 220 318 224C316 228 312 233 310 236C306 242 290 257 285 261C282 262 278 264 267 270C266 271 262 272 258 274C253 275 247 277 244 278C241 279 234 280 229 281C223 281 216 282 213 283C209 283 183 283 154 283C112 284 102 284 101 285C100 286 100 308 100 362C100 404 99 438 99 439C98 440 13 440 12 439ZM840 439C839 438 839 15 840 11L841 8L884 8C925 8 926 8 928 9C928 11 929 38 929 96C928 192 928 186 936 177C948 165 959 153 972 140C989 121 985 125 1006 103C1015 93 1024 84 1025 83C1025 83 1028 79 1031 76C1044 62 1086 18 1092 12L1097 8L1152 8C1210 8 1209 7 1207 11C1206 12 1167 51 1121 98C1074 145 1036 184 1036 185C1036 185 1039 191 1044 198C1049 204 1054 211 1056 214C1058 217 1062 223 1066 227C1069 231 1072 236 1074 238C1076 242 1081 248 1088 257C1089 260 1092 264 1094 266C1096 268 1105 282 1116 296C1126 309 1135 322 1137 325C1138 327 1141 331 1143 333C1145 336 1148 340 1150 342C1152 345 1154 349 1165 363C1181 386 1187 393 1191 399C1200 412 1212 428 1216 433C1218 435 1219 438 1219 439C1219 439 1198 440 1162 440L1106 440L1103 436C1101 434 1099 431 1098 430C1097 428 1094 423 1091 419C1087 414 1083 408 1081 405C1079 402 1075 396 1072 392C1068 387 1064 381 1062 378C1060 374 1055 368 1052 363C1048 358 1044 352 1042 350C1041 348 1037 343 1035 339C1032 335 1028 329 1025 326C1023 322 1019 317 1017 314C1015 311 1012 307 1011 306C1010 304 1007 300 1005 297C1002 293 998 287 995 283C989 275 986 269 980 262C979 260 976 257 975 255C974 253 973 252 972 252C970 252 931 291 929 294C929 295 929 328 929 367C929 406 928 438 928 438C927 440 841 440 840 439ZM204 208C213 207 215 206 224 201C229 199 237 192 240 187C243 183 248 173 248 171C248 170 248 168 249 166C252 160 252 131 249 122C248 118 247 114 246 114C246 113 245 110 244 108C240 101 226 90 219 88C217 88 214 87 213 86C211 85 204 84 198 83C189 81 181 81 145 81L102 81L101 84C99 87 99 207 101 209C103 211 106 211 148 210C185 210 196 209 204 208Z"/></symbol></svg>
+
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="top">
-  <div class="wrap top__in">
-    <a class="mark" href="index.html"><img src="/assets/img/puku-logo.png?v=3" alt="Puku Trading Trust" width="440" height="121"></a>
-    <button class="navbtn" type="button" aria-expanded="false" aria-controls="nav" hidden>Menu</button>
-    <nav class="nav" id="nav" aria-label="Main">
-      <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="chemicals.html" aria-current="page">Chemicals</a></li>
-          <li><a href="building-roofing.html">Building &amp; Roofing</a></li>
-          <li><a href="agriculture.html">Agriculture</a></li>
-          <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<main id="main">
-
-<section class="hero">
+<section class="band band--navy hero">
   <div class="wrap">
-    <div class="hero__grid">
-      <div>
-        <h1>Industrial chemicals, specified properly.</h1>
-      </div>
-      <div>
-        <p class="lead">Sourced against your order from established manufacturers, in the packaging your site can handle, with the safety data sheet.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0">
-  <div class="wrap">
-    <div class="apps">
-
-      <div class="app">
-        <div>
-          <h2>Water treatment</h2>
-          <p class="muted">For municipalities, water schemes, bottlers and any site running its own treatment.</p>
-        </div>
-        <ul class="list">
-          <li><b>Disinfection</b><span>Sodium hypochlorite, calcium hypochlorite, stabilised chlorine products</span></li>
-          <li><b>Coagulants</b><span>Aluminium sulphate, ferric chloride, polyaluminium chloride</span></li>
-          <li><b>Flocculants</b><span>Anionic, cationic and non&#8209;ionic polyacrylamides</span></li>
-          <li><b>pH correction</b><span>Hydrated lime, soda ash, caustic soda, sulphuric and hydrochloric acid</span></li>
-          <li><b>Scale and corrosion</b><span>Antiscalants, membrane cleaners, corrosion inhibitors</span></li>
-          <li><b>Testing</b><span>DPD reagents, test kits and replacement consumables</span></li>
-        </ul>
-      </div>
-
-      <div class="app">
-        <div>
-          <h2>Food and beverage cleaning</h2>
-          <p class="muted">Abattoirs, dairies, bottlers, bakeries and processors. Send us your current programme and we will quote against it.</p>
-        </div>
-        <ul class="list">
-          <li><b>Alkaline detergents</b><span>Caustic soda in flake, pearl and liquid form; chlorinated and non&#8209;chlorinated CIP alkalis</span></li>
-          <li><b>Acid cleaners</b><span>Nitric, phosphoric and sulphamic descalers for milkstone, beerstone and scale</span></li>
-          <li><b>Sanitisers</b><span>Peracetic acid, quaternary ammonium, chlorine&#8209;based, iodophors</span></li>
-          <li><b>Degreasers</b><span>Heavy&#8209;duty alkaline and solvent degreasers for floors and plant</span></li>
-          <li><b>Hand and surface</b><span>Sanitiser, soap, footbath and boot&#8209;wash chemistry</span></li>
-          <li><b>Ancillaries</b><span>Dosing consumables, brushware, colour&#8209;coded cleaning equipment</span></li>
-        </ul>
-      </div>
-
-      <div class="app">
-        <div>
-          <h2>Mining and process</h2>
-          <p class="muted">For mines, quarries and processing plants, where transport planning matters as much as the chemistry.</p>
-        </div>
-        <ul class="list">
-          <li><b>Acids and alkalis</b><span>Sulphuric acid, hydrochloric acid, caustic soda, lime and limestone</span></li>
-          <li><b>Flotation reagents</b><span>Collectors, frothers, depressants and activators, quoted to your reagent schedule</span></li>
-          <li><b>Grinding media</b><span>Forged and cast balls, rods and liners to your mill specification</span></li>
-          <li><b>Separation</b><span>Flocculants and coagulants for thickeners, filters and tailings</span></li>
-          <li><b>Dust and water</b><span>Dust suppressants and water treatment for the plant and the camp</span></li>
-          <li><b>Laboratory</b><span>Assay and analytical reagents, glassware and consumables</span></li>
-        </ul>
-      </div>
-
-      <div class="app">
-        <div>
-          <h2>General industrial</h2>
-          <p class="muted">The rest of the site chemical list. If something is not here, it does not mean we cannot get it.</p>
-        </div>
-        <ul class="list">
-          <li><b>Solvents</b><span>Mineral turpentine, thinners, methylated spirits, isopropanol, glycols</span></li>
-          <li><b>Salts and minerals</b><span>Coarse and fine salt, calcium chloride, magnesium sulphate, soda ash</span></li>
-          <li><b>Workshop</b><span>Degreasers, rust removers, coolants, release agents, adhesives</span></li>
-          <li><b>Effluent</b><span>Odour control, drain and grease&#8209;trap treatment, biological dosing</span></li>
-          <li><b>Packaging</b><span>25 L and 210 L drums, 1000 L IBCs, 25 kg bags and bulk</span></li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="section section--tint" id="verification">
-  <div class="wrap">
-    <div class="verify">
-      <p class="label label--accent">Free technical service</p>
-      <div class="head">
-        <h2>Chlorine strength verification</h2>
-        <div>
-          <p>You buy sodium hypochlorite by strength and dose it by strength. It is very rarely checked.</p>
-          <p class="muted">Hypochlorite begins losing available chlorine the day it is made, and heat and time accelerate it. A load that left the factory at label strength does not necessarily arrive at label strength, and nothing on the outside of a drum tells you what is inside it.</p>
-        </div>
-      </div>
-
-      <div class="gauge">
-        <div class="gauge__row">
-          <span class="gauge__key">On the label</span>
-          <span class="gauge__bar"><span class="gauge__fill"></span></span>
-        </div>
-        <div class="gauge__row">
-          <span class="gauge__key">In the drum</span>
-          <span class="gauge__bar"><span class="gauge__fill gauge__fill--short"></span></span>
-        </div>
-        <p class="gauge__note">An illustration of the problem, not a measurement. Your figure is whatever the titration gives on the day.</p>
-      </div>
-
-      <div class="app" style="margin-top:clamp(2.5rem,5vw,4rem)">
-        <div><h3>What we do</h3></div>
-        <div class="prose">
-          <p>We come to your site and run an iodometric titration on a sample drawn from your own stock, in front of you. It is the standard method for available chlorine and it takes minutes.</p>
-          <p>You get the result in writing, against the strength you were invoiced for, with the date and the batch reference. Use it with your current supplier if you want to — we will run the test whether or not you ever buy from us.</p>
-          <p class="muted">A field titration on your samples. Not a laboratory certificate, and we do not present it as one.</p>
-          <p class="actions"><a class="btn" href="contact.html">Book a verification</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<a class="wa" href="https://wa.me/264812545797" data-wa aria-label="Message Puku Trading on WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.2.2 2.1 3.2 5.1 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.6-.3zM12 21.6c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3.5.9.9-3.4-.2-.4C3.3 15.7 2.8 14 2.8 12.2 2.8 7.1 6.9 3 12 3s9.2 4.1 9.2 9.2-4.1 9.4-9.2 9.4zM12 1C5.9 1 1 5.9 1 12c0 1.9.5 3.8 1.4 5.4L1 24l6.8-1.8c1.5.8 3.3 1.3 5.1 1.3h.1C18.1 23.5 23 18.6 23 12.5 23 6.4 18.1 1 12 1z"/></svg><span>WhatsApp</span>
-</a>
-
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot__grid">
-      <div>
-        <p class="mark"><img src="/assets/img/puku-logo-light.png?v=3" alt="Puku Trading Trust" width="440" height="121"></p>
-        <p>Independent sourcing and trading agent.<br>91 Nelson Mandela Avenue, Windhoek, Namibia</p>
-      </div>
-      <div>
-        <h2>What we source</h2>
+    <header class="masthead">
+      <a class="mark" href="index.html" aria-label="Puku Trading Trust — home">
+        <svg width="116" height="32" viewBox="8 8 1608 444" aria-hidden="true" focusable="false"><use href="#puku"/></svg>
+      </a>
+      <button class="menubtn" type="button" aria-expanded="false" aria-controls="nav" hidden>Menu</button>
+      <nav class="nav" id="nav" aria-label="Main">
         <ul>
-          <li><a href="chemicals.html">Industrial chemicals</a></li>
-          <li><a href="building-roofing.html">Building &amp; roofing</a></li>
-          <li><a href="agriculture.html">Agriculture</a></li>
-          <li><a href="chemicals.html#verification">Chlorine verification</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="chemicals.html" aria-current="page">Chemicals</a></li>
+            <li><a href="building-roofing.html">Building &amp; roofing</a></li>
+            <li><a href="agriculture.html">Agriculture</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
+      </nav>
+    </header>
+
+    <div class="grid hero__grid" id="main">
+      <div class="hero__main">
+        <p class="label label--accent">Division &middot; Industrial chemicals</p>
+        <h1>Chemicals, specified properly.</h1>
+        <p class="lead">Sourced against your order from established manufacturers, in the packaging your site can handle, with the safety data sheet.</p>
+          <p class="hero__actions">
+            <a class="btn btn--primary" href="contact.html">Request a quotation</a>
+            <a class="btn btn--ghost" href="https://wa.me/264812545797" data-wa>WhatsApp +264 81 254 5797</a>
+          </p>
       </div>
-      <div>
-        <h2>Contact</h2>
+      <div class="hero__aside">
+        <p class="label label--accent">At a glance</p>
+        <dl class="keys">
+          <div>
+            <dt>Packaging</dt>
+            <dd>25 L &middot; 210 L &middot; 1000 L IBC &middot; 25 kg &middot; bulk</dd>
+          </div>
+          <div>
+            <dt>Applications</dt>
+            <dd>Water &middot; Food &amp; beverage &middot; Mining &middot; General</dd>
+          </div>
+          <div>
+            <dt>Documents</dt>
+            <dd>Safety data sheet with every delivery</dd>
+          </div>
+          <div>
+            <dt>Free service</dt>
+            <dd>Chlorine strength verification</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="verify grid">
+      <div class="verify__text">
+        <p class="label label--accent">Free technical service</p>
+        <h2>Chlorine strength verification</h2>
+        <p>Sodium hypochlorite loses available chlorine from the day it is made, and heat and time accelerate it. What arrives at your site is often weaker than the strength it was sold as, and nothing on the outside of a drum tells you.</p>
+        <p>We will test a sample of your existing stock and tell you the strength it actually is, in writing. The test is free, it carries no obligation to buy anything, and we will do it whether or not you have ever bought from us.</p>
+        <p style="margin-top:24px"><a class="plate__go" href="https://wa.me/264812545797" data-wa>Send a sample &mdash; WhatsApp +264 81 254 5797 &rarr;</a></p>
+      </div>
+      <div class="verify__fig">
+        <div class="track track--declared">
+          <p class="label">As declared</p>
+          <div class="track__bar"></div>
+        </div>
+        <div class="track track--measured">
+          <p class="label">As measured</p>
+          <div class="track__bar">
+            <span class="fill"></span>
+            <span class="short"></span>
+          </div>
+        </div>
+        <p class="track__note label">Schematic only. The figure is whatever the titration returns.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--tint">
+  <div class="wrap">
+    <div class="sechead sechead__cols">
+      <p class="label">By application</p>
+      <h2>What we supply</h2>
+      <p class="sechead__intro">Tell us the application and the volume and we will quote the chemistry to suit it.</p>
+    </div>
+    <div class="apps">
+      <div class="app">
+        <div class="app__head">
+          <h2>Water treatment</h2>
+          <p>For municipalities, water schemes, bottlers and any site running its own treatment.</p>
+        </div>
+        <div class="app__body">
+          <dl class="spec">
+          <div>
+            <dt>Disinfection</dt>
+            <dd>Sodium hypochlorite, calcium hypochlorite, stabilised chlorine products</dd>
+          </div>
+          <div>
+            <dt>Coagulants</dt>
+            <dd>Aluminium sulphate, ferric chloride, polyaluminium chloride</dd>
+          </div>
+          <div>
+            <dt>Flocculants</dt>
+            <dd>Anionic, cationic and non&#8209;ionic polyacrylamides</dd>
+          </div>
+          <div>
+            <dt>pH correction</dt>
+            <dd>Hydrated lime, soda ash, caustic soda, sulphuric and hydrochloric acid</dd>
+          </div>
+          <div>
+            <dt>Scale and corrosion</dt>
+            <dd>Antiscalants, membrane cleaners, corrosion inhibitors</dd>
+          </div>
+          <div>
+            <dt>Testing</dt>
+            <dd>DPD reagents, test kits and replacement consumables</dd>
+          </div>
+          </dl>
+        </div>
+      </div>
+      <div class="app">
+        <div class="app__head">
+          <h2>Food and beverage</h2>
+          <p>Abattoirs, dairies, bottlers, bakeries and processors. Send your current programme and we quote against it.</p>
+        </div>
+        <div class="app__body">
+          <dl class="spec">
+          <div>
+            <dt>Alkaline detergents</dt>
+            <dd>Caustic soda in flake, pearl and liquid form; chlorinated and non&#8209;chlorinated CIP alkalis</dd>
+          </div>
+          <div>
+            <dt>Acid cleaners</dt>
+            <dd>Nitric, phosphoric and sulphamic descalers for milkstone, beerstone and scale</dd>
+          </div>
+          <div>
+            <dt>Sanitisers</dt>
+            <dd>Peracetic acid, quaternary ammonium, chlorine&#8209;based, iodophors</dd>
+          </div>
+          <div>
+            <dt>Degreasers</dt>
+            <dd>Heavy&#8209;duty alkaline and solvent degreasers for floors and plant</dd>
+          </div>
+          <div>
+            <dt>Hand and surface</dt>
+            <dd>Sanitiser, soap, footbath and boot&#8209;wash chemistry</dd>
+          </div>
+          <div>
+            <dt>Ancillaries</dt>
+            <dd>Dosing consumables, brushware, colour&#8209;coded cleaning equipment</dd>
+          </div>
+          </dl>
+        </div>
+      </div>
+      <div class="app">
+        <div class="app__head">
+          <h2>Mining and process</h2>
+          <p>For mines, quarries and processing plants, where transport planning matters as much as the chemistry.</p>
+        </div>
+        <div class="app__body">
+          <dl class="spec">
+          <div>
+            <dt>Acids and alkalis</dt>
+            <dd>Sulphuric acid, hydrochloric acid, caustic soda, lime and limestone</dd>
+          </div>
+          <div>
+            <dt>Flotation reagents</dt>
+            <dd>Collectors, frothers, depressants and activators, quoted to your reagent schedule</dd>
+          </div>
+          <div>
+            <dt>Grinding media</dt>
+            <dd>Forged and cast balls, rods and liners to your mill specification</dd>
+          </div>
+          <div>
+            <dt>Separation</dt>
+            <dd>Flocculants and coagulants for thickeners, filters and tailings</dd>
+          </div>
+          <div>
+            <dt>Dust and water</dt>
+            <dd>Dust suppressants and water treatment for the plant and the camp</dd>
+          </div>
+          <div>
+            <dt>Laboratory</dt>
+            <dd>Assay and analytical reagents, glassware and consumables</dd>
+          </div>
+          </dl>
+        </div>
+      </div>
+      <div class="app">
+        <div class="app__head">
+          <h2>General industrial</h2>
+          <p>The rest of the site chemical list. If something is not here, it does not mean we cannot get it.</p>
+        </div>
+        <div class="app__body">
+          <dl class="spec">
+          <div>
+            <dt>Solvents</dt>
+            <dd>Mineral turpentine, thinners, methylated spirits, isopropanol, glycols</dd>
+          </div>
+          <div>
+            <dt>Salts and minerals</dt>
+            <dd>Coarse and fine salt, calcium chloride, magnesium sulphate, soda ash</dd>
+          </div>
+          <div>
+            <dt>Workshop</dt>
+            <dd>Degreasers, rust removers, coolants, release agents, adhesives</dd>
+          </div>
+          <div>
+            <dt>Effluent</dt>
+            <dd>Odour control, drain and grease&#8209;trap treatment, biological dosing</dd>
+          </div>
+          <div>
+            <dt>Packaging</dt>
+            <dd>25 L and 210 L drums, 1000 L IBCs, 25 kg bags and bulk</dd>
+          </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="band band--navy foot">
+  <div class="wrap">
+    <a class="mark" href="index.html" aria-label="Puku Trading Trust — home">
+      <svg width="101" height="28" viewBox="8 8 1608 444" aria-hidden="true" focusable="false"><use href="#puku"/></svg>
+    </a>
+    <div class="foot__cols">
+      <div class="foot__col">
+        <p class="label">Contact</p>
         <ul>
           <li><a href="https://wa.me/264812545797" data-wa>WhatsApp +264 81 254 5797</a></li>
           <li><a href="tel:+264812545797">Call +264 81 254 5797</a></li>
           <li><a href="mailto:pukutrading@gmail.com">pukutrading@gmail.com</a></li>
-          <li><a href="contact.html">Send an enquiry</a></li>
+          <li><span class="foot__line">91 Nelson Mandela Avenue, Windhoek</span></li>
         </ul>
       </div>
+      <div class="foot__col">
+        <p class="label">Pages</p>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="chemicals.html">Chemicals</a></li>
+          <li><a href="building-roofing.html">Building &amp; roofing</a></li>
+          <li><a href="agriculture.html">Agriculture</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <p class="label">Puku Trading Trust</p>
+        <p class="foot__about">An independent sourcing and trading agent in Windhoek. We hold no stock and manufacture nothing.</p>
+        <p class="foot__about">We source, specify, quote and deliver. Trust T&nbsp;65/2018.</p>
+      </div>
     </div>
-    <div class="foot__legal">
-      <span>&copy; <span data-year>2026</span> Puku Trading Trust</span>
-      <span>Trust T 65/2018</span>
-      <span>Sourcing agent. We do not hold stock.</span>
-    </div>
+    <p class="foot__legal label">&copy; <span data-year>2026</span> Puku Trading Trust &middot; Windhoek, Namibia</p>
   </div>
 </footer>
 
-<script src="/assets/js/site.js?v=3" defer></script>
+<nav class="bar" aria-label="Contact">
+  <a href="https://wa.me/264812545797" data-wa>WhatsApp</a>
+  <a href="tel:+264812545797">Call</a>
+</nav>
+
+<script src="/assets/js/site.js?v=4" defer></script>
 </body>
 </html>

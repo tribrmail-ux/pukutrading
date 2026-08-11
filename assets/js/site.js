@@ -1,40 +1,41 @@
 /* ==========================================================================
    Puku Trading Trust — site.js
-   Vanilla JS, no dependencies. Everything here is an enhancement: if this
-   file fails to load, every page and both forms still work.
+
+   Everything here is enhancement. With JavaScript off: the menu is already
+   open in the markup, the enquiry form posts natively, and the chlorine
+   schematic renders in its final state.
    ========================================================================== */
 
+/* This must run before anything paints: the schematic's start state is scoped
+   to html.js so that a no-JS visitor never sees a bar waiting to animate. */
+document.documentElement.className += " js";
+
 /* --------------------------------------------------------------------------
-   CONFIG — the things you are likely to change.
-   The WhatsApp number and e-mail are also written into the HTML so the site
-   works with JavaScript switched off. See the README before editing them.
+   CONFIG
+   The WhatsApp number and e-mail are also written into the HTML, so the site
+   works without this file. Change them in both places — see README.
    -------------------------------------------------------------------------- */
 
 var PUKU = {
-  /* Formspree form ID. Create a form at https://formspree.io and paste the ID
-     (the part after /f/) here AND into the action="" of the two forms in
-     index.html and contact.html.                                            */
   FORMSPREE_ENDPOINT: "https://formspree.io/f/mwleowok",
-
-  /* WhatsApp number, digits only, full international format. */
   WHATSAPP_NUMBER: "264812545797",
-
-  /* Pre-filled WhatsApp message. */
   WHATSAPP_MESSAGE: "Hi Puku Trading, I'd like a quote for ",
-
   EMAIL: "pukutrading@gmail.com"
 };
 
 (function () {
   "use strict";
 
-  /* ---- Navigation ------------------------------------------------------- */
+  /* ---- Menu ------------------------------------------------------------- */
+  /* The panel is in normal flow and pushes the page down, so there is no
+     positioning, no z-index, no scroll lock and no focus trap to get wrong. */
 
-  var btn = document.querySelector(".navbtn");
+  var btn = document.querySelector(".menubtn");
   var nav = document.getElementById("nav");
 
   if (btn && nav) {
     btn.hidden = false;
+    nav.setAttribute("data-open", "false");
     btn.addEventListener("click", function () {
       var open = nav.getAttribute("data-open") === "true";
       nav.setAttribute("data-open", open ? "false" : "true");
@@ -49,54 +50,109 @@ var PUKU = {
     });
   }
 
-  /* ---- WhatsApp --------------------------------------------------------- */
-  /* The HTML already carries a working wa.me link. This keeps every link in
-     step with CONFIG and adds the page subject to the pre-filled message.   */
+  /* ---- WhatsApp links --------------------------------------------------- */
+  /* The markup already carries a working wa.me link; this only keeps them in
+     step with CONFIG and adds the page subject to the prefilled message.    */
 
   var number = String(PUKU.WHATSAPP_NUMBER).replace(/[^0-9]/g, "");
   if (number) {
     var subject = document.body.getAttribute("data-subject") || "";
     var text = PUKU.WHATSAPP_MESSAGE + subject;
-    var links = document.querySelectorAll("[data-wa]");
-    for (var i = 0; i < links.length; i++) {
-      links[i].setAttribute(
+    var waLinks = document.querySelectorAll("[data-wa]");
+    for (var i = 0; i < waLinks.length; i++) {
+      waLinks[i].setAttribute(
         "href",
         "https://wa.me/" + number + "?text=" + encodeURIComponent(text)
       );
     }
   }
 
-  /* ---- Enquiry forms ---------------------------------------------------- */
-  /* Without JS the form posts normally and Formspree shows its own thank-you
-     page. With JS it submits in the background, which matters on a slow
-     connection.                                                             */
+  /* ---- The one motion on the site --------------------------------------- */
+  /* The shortfall bar draws itself in, once, on first view. Never attached
+     when the visitor has asked for reduced motion.                          */
 
-  var forms = document.querySelectorAll(".enquiry");
+  var track = document.querySelector(".track--measured");
+  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (track && !still && "IntersectionObserver" in window) {
+    track.classList.add("is-armed");
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove("is-armed");
+            io.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(track);
+  }
+
+  /* ---- Enquiry form ----------------------------------------------------- */
+
+  var forms = document.querySelectorAll(".enquiry-form");
 
   Array.prototype.forEach.call(forms, function (form) {
-    var status = form.parentNode.querySelector(".status");
+    var sent = form.parentNode.querySelector(".sent");
     var button = form.querySelector("[type=submit]");
+    var validated = false;
 
     if (PUKU.FORMSPREE_ENDPOINT.indexOf("[[") === -1) {
       form.setAttribute("action", PUKU.FORMSPREE_ENDPOINT);
     }
 
-    var page = form.querySelector("[name=_page]");
-    if (page) page.value = document.title;
+    var pageField = form.querySelector("[name=_page]");
+    if (pageField) pageField.value = document.title;
+
+    /* Validation messaging. The browser's own constraint validation decides
+       what is valid; this only renders the message in the page's own voice
+       rather than a native bubble.                                          */
+    function check(field) {
+      var msg = form.querySelector("#" + field.id + "-err");
+      var ok = field.checkValidity();
+      field.setAttribute("aria-invalid", ok ? "false" : "true");
+      if (msg) {
+        msg.textContent = ok
+          ? ""
+          : field.validity.valueMissing
+          ? "Required — please fill this in."
+          : "Check this — it does not look complete.";
+      }
+      return ok;
+    }
+
+    var fields = form.querySelectorAll("input[required], textarea[required], input[type=email]");
+    Array.prototype.forEach.call(fields, function (field) {
+      field.addEventListener("blur", function () {
+        if (validated) check(field);
+      });
+    });
 
     form.addEventListener("submit", function (e) {
-      var action = form.getAttribute("action") || "";
+      validated = true;
+      var allOk = true;
+      Array.prototype.forEach.call(fields, function (field) {
+        if (!check(field)) allOk = false;
+      });
 
-      /* Not configured yet, or no fetch: let the browser do what it would
-         normally do rather than swallowing the enquiry. */
+      if (!allOk) {
+        e.preventDefault();
+        var firstBad = form.querySelector('[aria-invalid="true"]');
+        if (firstBad) firstBad.focus();
+        return;
+      }
+
+      var action = form.getAttribute("action") || "";
       if (action.indexOf("[[") !== -1 || !window.fetch || !window.FormData) return;
 
       e.preventDefault();
       if (button) {
         button.disabled = true;
+        button.setAttribute("aria-busy", "true");
         button.textContent = "Sending…";
       }
-      say("Sending your enquiry…", "busy");
 
       fetch(action, {
         method: "POST",
@@ -104,13 +160,12 @@ var PUKU = {
         headers: { Accept: "application/json" }
       })
         .then(function (res) {
-          if (res.ok) {
-            form.reset();
-            say(
-              "Thank you — your enquiry has been sent. We will come back to you with a quotation. If it is urgent, send the same details on WhatsApp.",
-              "ok"
-            );
-          } else {
+          if (res.ok && sent) {
+            form.hidden = true;
+            sent.hidden = false;
+            var heading = sent.querySelector("h3");
+            if (heading) heading.focus();
+          } else if (!res.ok) {
             fail();
           }
         })
@@ -118,47 +173,17 @@ var PUKU = {
         .then(function () {
           if (button) {
             button.disabled = false;
+            button.removeAttribute("aria-busy");
             button.textContent = "Send enquiry";
           }
         });
     });
 
     function fail() {
-      say(
-        "That did not go through. Please send your enquiry on WhatsApp or by e-mail instead — both are linked below.",
-        "error"
-      );
-    }
-
-    function say(message, state) {
-      if (!status) return;
-      status.hidden = false;
-      status.textContent = message;
-      status.setAttribute("data-state", state);
+      var note = form.querySelector(".form__fail");
+      if (note) note.hidden = false;
     }
   });
-
-  /* ---- The single piece of motion --------------------------------------- */
-  /* The shortfall bar draws once when it first comes into view. Static
-     without JS, and skipped when reduced motion is requested.               */
-
-  var gauge = document.querySelector(".gauge");
-  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (gauge && !still && "IntersectionObserver" in window) {
-    var io = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("gauge--seen");
-            io.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-    io.observe(gauge);
-  }
 
   /* ---- Footer year ------------------------------------------------------ */
 
