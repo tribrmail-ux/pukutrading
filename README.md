@@ -51,26 +51,43 @@ Three things were written from general knowledge and are worth a glance:
 
 ---
 
-## 2. Deploy to Netlify by drag and drop
+## 2. Deploy to Cloudflare
 
-1. Go to <https://app.netlify.com/drop>.
-2. Drag **the whole site folder** (the folder containing `index.html`) onto the page.
-   Do not zip it, and do not drag the individual files — Netlify needs the folder so the
-   paths stay correct.
-3. Netlify publishes it in a few seconds and gives you a temporary address like
-   `random-name-12345.netlify.app`. The site is live at that address immediately.
-4. To update later: log in, open the site, go to **Deploys**, and drag the folder onto
-   the deploy area again. Each drop replaces the whole site.
+The site is hosted on Cloudflare Workers, built straight from this GitHub repository.
+Every push to `main` redeploys it — there is nothing to upload by hand.
 
-If you would rather create a free account first, do — it lets you keep the same URL, set
-the custom domain, and see form activity.
+### First-time setup
 
-### Any other host works too
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Import a repository**.
+2. Choose `tribrmail-ux/pukutrading`.
+3. Settings:
+   - **Project name**: `pukutrading`
+   - **Build command**: leave empty (there is no build)
+   - **Deploy command**: `npx wrangler deploy`
+   - **Production branch**: `main`
+4. **Deploy**. In under a minute the site is live at
+   `pukutrading.<your-subdomain>.workers.dev`.
 
-There is nothing Netlify-specific in the site. It will run on Cloudflare Pages, GitHub
-Pages, Vercel, or ordinary shared hosting via FTP. Just upload every file and folder,
-keeping the structure intact. The one Netlify-only file is `_headers`, which sets cache
-times; other hosts ignore it harmlessly.
+`wrangler.jsonc` in this repo tells Cloudflare what to publish: the whole folder, with
+no server-side code, and `404.html` for unknown URLs. `.assetsignore` keeps the git
+plumbing and this README out of the published output.
+
+### Updating the site afterwards
+
+Edit a file, commit, push to `main`. Cloudflare notices and redeploys within a minute or
+so. Watch it under **Workers & Pages → pukutrading → Deployments**.
+
+If you would rather not use git at all, you can drag the folder into Cloudflare's
+**Direct Upload** option instead, but then the repository and the live site drift apart —
+pick one way and stay with it.
+
+### Other hosts
+
+Nothing here is Cloudflare-specific except `wrangler.jsonc`. The site is a plain folder of
+files and will run on Netlify, GitHub Pages, Vercel or ordinary shared hosting over FTP —
+upload everything, keeping the folder structure intact. The `_headers` file, which sets
+cache times, is understood by both Cloudflare and Netlify and ignored harmlessly
+elsewhere.
 
 ---
 
@@ -132,20 +149,55 @@ in the HTML files as well, not only here.
 
 ---
 
-## 5. Pointing your domain at the site
+## 5. Pointing the Porkbun domain at Cloudflare
 
-1. Buy the domain wherever you like (`.com.na` and `.na` domains go through a Namibian
-   registrar; `.com` from any international registrar).
-2. In Netlify: **Site configuration → Domain management → Add a domain**, and enter it.
-3. Netlify shows you what to set at your registrar. Usually either:
-   - change the domain's **nameservers** to the Netlify ones it lists (simplest), or
-   - add a `CNAME` record for `www` pointing at your `something.netlify.app` address, and
-     an `A` record for the bare domain pointing at the IP Netlify gives you.
-4. Wait for DNS to propagate — minutes to a few hours.
-5. Netlify issues a free HTTPS certificate automatically once the domain resolves. Check
-   that the padlock appears before you print the address on anything.
-6. **Then** replace `[[DOMAIN]]` throughout the site with the real domain and redeploy,
-   so the canonical tags, sitemap and social preview point at the right place.
+The domain is registered at Porkbun. To use it on Cloudflare Workers, the domain's DNS
+has to be handled by Cloudflare — which means changing its nameservers at Porkbun. The
+domain stays registered at Porkbun and you keep renewing it there; only DNS moves.
+
+### Step 1 — add the domain to Cloudflare
+
+1. Cloudflare dashboard → **Add a domain** → type the domain → **Free** plan.
+2. Cloudflare scans the existing DNS and shows what it found. **Read this list.** If
+   there are `MX` records — anything to do with e-mail on the domain, including Porkbun's
+   free e-mail forwarding — make sure they are in the list. Anything missing here stops
+   working the moment the nameservers change, and it must be re-added by hand.
+3. Cloudflare gives you **two nameservers**, something like `ana.ns.cloudflare.com` and
+   `bob.ns.cloudflare.com`. Copy them.
+
+### Step 2 — change the nameservers at Porkbun
+
+1. **Turn DNSSEC off first** if it is on: Porkbun → the domain → DNSSEC → remove any
+   records. Changing nameservers while a DNSSEC record is on file makes the domain stop
+   resolving completely, and it is a miserable thing to debug.
+2. Porkbun → **Domain Management** → the domain → **Authoritative Nameservers** →
+   **Edit**.
+3. Delete Porkbun's nameservers, enter Cloudflare's two, save.
+4. Cloudflare e-mails you when the domain becomes active. Usually minutes; occasionally a
+   few hours. You can press **Check nameservers now** in Cloudflare to hurry it along.
+
+### Step 3 — attach the domain to the site
+
+Once Cloudflare shows the domain as active:
+
+1. **Workers & Pages** → `pukutrading` → **Settings** → **Domains & Routes** → **Add** →
+   **Custom domain**.
+2. Enter the bare domain, e.g. `pukutrading.com`. Add `www.pukutrading.com` the same way.
+3. Cloudflare creates the DNS records and issues the HTTPS certificate itself. Nothing to
+   configure by hand.
+
+Wait for the padlock to appear in the browser before printing the address on anything.
+
+### Step 4 — then fix the placeholders
+
+Replace `[[DOMAIN]]` throughout the site with the real domain, commit and push. That
+makes the canonical tags, the sitemap and the WhatsApp and Facebook link previews point
+at the right place.
+
+### While you are waiting
+
+The `*.workers.dev` address from section 2 works the whole time. The site is genuinely
+online there — send that link to anyone who needs to see it before the domain resolves.
 
 ---
 
@@ -166,7 +218,11 @@ sitemap.xml             Search engine sitemap — update the dates if you edit p
 robots.txt              Allows all crawlers, points at the sitemap
 site.webmanifest        Icon and colour information for phones
 favicon.ico             Browser tab icon
-_headers                Netlify caching and security headers (ignored elsewhere)
+_headers                Caching and security headers (read by Cloudflare and Netlify,
+                        ignored harmlessly by other hosts)
+wrangler.jsonc          Tells Cloudflare what to publish. Do not delete it — the
+                        deployment fails without it
+.assetsignore           Files in this folder that must NOT be published
 
 assets/css/site.css     The entire stylesheet. Colours are at the top under :root
 assets/js/site.js       Config block, mobile menu, form handling, one animation
