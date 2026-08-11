@@ -1,17 +1,29 @@
-# Netlify header rules. Harmless on other hosts, which simply ignore the file.
+# Cache rules. Read by Cloudflare and Netlify; other hosts ignore this file.
+#
+# The important lesson encoded here: HTML, CSS and JS must revalidate on every
+# request. An earlier version cached the stylesheet for a week, so a deploy
+# went out with new HTML and visitors kept the old CSS — the page rendered as
+# a broken hybrid. Fonts never change under a given filename, so they alone
+# get a long cache.
 
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
   Access-Control-Allow-Origin: *
 
-/assets/img/*
-  Cache-Control: public, max-age=2592000
-
 /assets/css/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, no-cache
 
 /assets/js/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, no-cache
+
+/assets/img/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/*.html
+  Cache-Control: public, no-cache
+
+/
+  Cache-Control: public, no-cache
 
 /*
   X-Content-Type-Options: nosniff
