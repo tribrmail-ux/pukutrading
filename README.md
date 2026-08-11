@@ -25,17 +25,8 @@ Every detail on the site is real. There are no `[[PLACEHOLDER]]` markers left �
 the folder for `[[` returns only two guard clauses in `assets/js/site.js`, which check
 whether the Formspree endpoint has been configured.
 
-**Opening hours are not shown.** The Contact page had a row for them, but rather than
-publish a placeholder it was removed. To put it back, add this to the `<ul class="details">`
-in `contact.html`:
-
-```html
-<li>
-  <p class="k">Hours</p>
-  <p class="v" style="font-size:1rem;font-weight:400;color:var(--text)">Monday to Friday, 08:00–17:00<br>
-    <span class="muted">WhatsApp messages are read outside those hours too.</span></p>
-</li>
-```
+Opening hours are **Monday to Friday, 08:00–17:00**, shown on the Contact page and also
+in the LocalBusiness structured data so Google can display them.
 
 ### Details already in the site
 
@@ -47,6 +38,8 @@ it the same way:
 - **+264 81 254 5797** — WhatsApp and phone. In links it appears as `264812545797`
   (WhatsApp, digits only) and `+264812545797` (`tel:`)
 - **pukutrading@gmail.com**
+- **Monday to Friday, 08:00–17:00** — on the Contact page and in the structured data on
+  every page, so change it in both if the hours change
 
 ### The logo
 
