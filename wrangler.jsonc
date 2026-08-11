@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers Static Assets configuration.
+  // This site has no server-side code — it is a folder of files — so there is
+  // no "main" entry point, only an assets directory.
+  "name": "pukutrading",
+  "compatibility_date": "2026-08-11",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page"
+  }
+}
