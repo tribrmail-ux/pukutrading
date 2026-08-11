@@ -77,6 +77,11 @@ plumbing and this README out of the published output.
 Edit a file, commit, push to `main`. Cloudflare notices and redeploys within a minute or
 so. Watch it under **Workers & Pages → pukutrading → Deployments**.
 
+**The first build only starts on the next push.** When a repository is connected to an
+existing Worker, Cloudflare says "You can now push a commit to your Git repository to
+start your first build" and then waits — it does not build the commit that is already at
+the top of `main`. Push anything, however small, and the first build runs.
+
 If you would rather not use git at all, you can drag the folder into Cloudflare's
 **Direct Upload** option instead, but then the repository and the live site drift apart —
 pick one way and stay with it.
