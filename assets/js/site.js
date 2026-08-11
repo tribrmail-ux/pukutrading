@@ -14,7 +14,7 @@ var PUKU = {
   /* Formspree form ID. Create a form at https://formspree.io and paste the ID
      (the part after /f/) here AND into the action="" of the two forms in
      index.html and contact.html.                                            */
-  FORMSPREE_ENDPOINT: "https://formspree.io/f/[[FORMSPREE ID]]",
+  FORMSPREE_ENDPOINT: "https://formspree.io/f/mwleowok",
 
   /* WhatsApp number, digits only, full international format. */
   WHATSAPP_NUMBER: "264812545797",

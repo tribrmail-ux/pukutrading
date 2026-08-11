@@ -19,7 +19,7 @@ contact.html            Enquiry form and contact details
 
 ---
 
-## 1. Placeholders — three things to fill in
+## 1. Placeholders — two things to fill in
 
 Everything else on the site is real. Find and replace these across the whole folder
 (VS Code: `Ctrl+Shift+H`):
@@ -27,7 +27,6 @@ Everything else on the site is real. Find and replace these across the whole fol
 | Placeholder | Replace with | Where | Times |
 |---|---|---|---|
 | `[[DOMAIN]]` | Your domain, no `https://`, no trailing slash — e.g. `pukutrading.com` | every page, `sitemap.xml`, `robots.txt` | 48 |
-| `[[FORMSPREE ID]]` | Your Formspree form ID — see section 3 | `index.html`, `contact.html`, `assets/js/site.js` | 3 |
 | `[[OPENING HOURS]]` | e.g. `Monday to Friday, 08:00–17:00` | `contact.html` | 1 |
 
 Search the folder for `[[` afterwards — there should be nothing left.
@@ -97,13 +96,14 @@ assets**, and drag the folder in.
 There is a form on the Home page and on Contact. Both work without JavaScript; with it,
 they submit in the background so the visitor stays on the page.
 
-1. Create a free account at <https://formspree.io>.
-2. Create a form pointed at the address enquiries should reach.
-3. Formspree gives you an endpoint like `https://formspree.io/f/xdorzabc`. The part after
-   `/f/` is your form ID.
-4. Replace `[[FORMSPREE ID]]` with it — in the two HTML files and in `assets/js/site.js`.
-5. Submit the form once yourself. Formspree sends a confirmation e-mail the first time;
-   until you click it, nothing comes through.
+**This is already wired up.** The form ID is `mwleowok`, and it appears in three places:
+the `action="..."` on the form in `index.html` and in `contact.html`, and
+`FORMSPREE_ENDPOINT` in `assets/js/site.js`. If you ever move to a different form, change
+all three.
+
+The one thing still to do: **submit the form once yourself**. Formspree sends a
+confirmation e-mail the first time a form is used, and until you click the link in it,
+nothing comes through.
 
 **File uploads.** The optional attachment field works, but Formspree only accepts uploads
 on their paid plans. On the free plan the enquiry still arrives and the attachment is
@@ -121,7 +121,7 @@ directly beneath it.
 
 ```js
 var PUKU = {
-  FORMSPREE_ENDPOINT: "https://formspree.io/f/xdorzabc",
+  FORMSPREE_ENDPOINT: "https://formspree.io/f/mwleowok",
   WHATSAPP_NUMBER:    "264812545797",
   WHATSAPP_MESSAGE:   "Hi Puku Trading, I'd like a quote for ",
   EMAIL:              "pukutrading@gmail.com"
