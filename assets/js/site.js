@@ -15,7 +15,7 @@ var PUKU = {
   FORMSPREE_ENDPOINT: "https://formspree.io/f/mwleowok",
   WHATSAPP_NUMBER: "264812545797",
   WHATSAPP_MESSAGE: "Hi Puku Trading, I'd like a quote for ",
-  EMAIL: "pukutrading@gmail.com"
+  EMAIL: "info@pukutrading.com"
 };
 
 (function () {
