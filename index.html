@@ -29,7 +29,7 @@
 <link rel="preload" href="/assets/fonts/instrument-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/instrument-bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v=8">
+<link rel="stylesheet" href="/assets/css/site.css?v=10">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -57,7 +57,8 @@
   "knowsAbout": [
     "Industrial chemicals sourcing", "Bulk and commodity chemicals",
     "Industrial cleaning chemicals", "Water and wastewater treatment chemicals",
-    "Roof sheeting and roofing accessories", "Specialised industrial sourcing"
+    "Roof sheeting and roofing accessories", "Specialised industrial sourcing",
+    "Branded clothing and promotional items", "Business websites and simple digital tools"
   ]
 }
 </script>
@@ -81,6 +82,7 @@
             <li><a href="chemicals.html">Chemicals</a></li>
             <li><a href="roofing.html">Roofing &amp; sheeting</a></li>
             <li><a href="sourcing.html">Specialised sourcing</a></li>
+            <li><a href="branding.html">Branding &amp; digital</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -148,6 +150,20 @@
         <p>Send us the specification, product name, part number, SDS or photograph and we will investigate suitable regional supply options.</p>
         <span class="plate__go">Send us what you need &rarr;</span>
       </a>
+    </div>
+
+    <!-- Branding is a secondary line, not a fourth area of supply. It sits
+         below the plates behind a 2px section rule so it can never read as
+         equal in weight to industrial chemicals. -->
+    <div class="also grid">
+      <div class="also__head">
+        <p class="label">Also from Puku</p>
+        <h2>Business branding &amp; digital tools</h2>
+      </div>
+      <div class="also__body">
+        <p>Alongside the supply side, Puku helps businesses with branded clothing and promotional items, straightforward business websites, and simple digital tools that make everyday work easier.</p>
+        <p><a class="also__go" href="branding.html">See branding &amp; digital &rarr;</a></p>
+      </div>
     </div>
   </div>
 </section>
@@ -236,6 +252,7 @@
               <option>Industrial chemicals</option>
               <option>Roofing &amp; sheeting</option>
               <option>Specialised sourcing</option>
+              <option>Business branding &amp; digital tools</option>
             </select>
           </p>
 
@@ -262,7 +279,7 @@
 
           <p class="field field--wide">
             <label for="home-product">Product or requirement <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
-            <textarea id="home-product" name="requirement" required placeholder="Product name, description or product code. If you are not sure what it is called, describe what it is used for."></textarea>
+            <textarea id="home-product" name="requirement" required placeholder="Product name, description or product code — or, for a branding or digital project, what you want to brand, build or improve."></textarea>
             <span class="field__err" id="home-product-err" role="alert"></span>
           </p>
 
@@ -279,6 +296,11 @@
             <label for="home-pack">Packaging preference</label>
             <span class="hint">If applicable</span>
             <input id="home-pack" name="packaging" type="text">
+          </p>
+          <p class="field">
+            <label for="home-budget">Budget</label>
+            <span class="hint">Only if you want to share it</span>
+            <input id="home-budget" name="budget" type="text">
           </p>
           <p class="field">
             <label for="home-place">Delivery location</label>
@@ -333,6 +355,7 @@
           <li><a href="chemicals.html">Industrial chemicals</a></li>
           <li><a href="roofing.html">Roofing &amp; sheeting</a></li>
           <li><a href="sourcing.html">Specialised sourcing</a></li>
+          <li><a href="branding.html">Branding &amp; digital</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
@@ -351,6 +374,6 @@
   <a href="tel:+264812545797">Call</a>
 </nav>
 
-<script src="/assets/js/site.js?v=8" defer></script>
+<script src="/assets/js/site.js?v=10" defer></script>
 </body>
 </html>

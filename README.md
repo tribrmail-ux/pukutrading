@@ -1,16 +1,17 @@
 # Puku Trading Trust — website
 
-Five pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
+Six pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
 build step. Open a file in a text editor, change it, push it — Cloudflare redeploys.
 
-About **77 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
+About **78 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
 against a 500 KB target. Zero external requests: no Google Fonts, no CDN, no tracker.
 
 ```
-index.html              Home — hero, three areas of supply, how it works, about, enquiry
+index.html              Home — hero, three areas of supply, branding, how it works, enquiry
 chemicals.html          Industrial chemicals, by application area
 roofing.html            Roofing & sheeting, and layout/quantity assistance
 sourcing.html           Specialised industrial sourcing
+branding.html           Business branding & digital tools — the secondary line
 contact.html            Enquiry form and contact details
 404.html                Shown for a bad URL
 ```
@@ -67,6 +68,22 @@ failure:
 The review gate: screenshot the divisions at 320px wide and convert to greyscale. If the
 plates do not read as separate groups, something has been broken. The fix is
 never to darken the tint.
+
+### The secondary line
+
+**Branding & digital tools is not a fourth division and must never be built as one.** On
+the home page it sits below the three plates as `.also` — no white ground, no 3px group
+rule, a `--rule-section` above it and the heading one size down. That is the whole
+mechanism keeping it a tier below industrial chemicals, which is where the brief puts it.
+Turning it into a fourth `.plate` would silently promote it to equal weight.
+
+### The nav breakpoint is its own number
+
+Horizontal navigation starts at **64rem**, not at the 56rem the page grid uses. Six labels
+at mono label size need about 1024px before they fit on one line; below that the Menu
+button is correct even though the layout has already gone to twelve columns. The two
+numbers are not interchangeable — a seventh nav item would mean raising 64rem again, not
+shortening a label until it just squeezes in.
 
 ### Type
 
@@ -143,7 +160,7 @@ without it. `.assetsignore` keeps the git plumbing, this README and the logo mas
 the published output.
 
 **If you change the CSS, the JS or an image, bump the version token.** Every asset URL
-carries `?v=` — currently `6`. Change it in all six HTML files (search for `?v=`). Without
+carries `?v=` — currently `10`. Change it in all seven HTML files (search for `?v=`). Without
 it, a visitor can be served new HTML against a cached old stylesheet, which renders the
 page as a broken hybrid. This has happened once already and it is not obvious when it does.
 
@@ -245,6 +262,13 @@ The copy was written to these limits. Keep them:
   "specify", "design" or "test".
 - **No agriculture, livestock or feed advice.** Agriculture was removed as a division; an
   agricultural product enquiry is handled under Specialised sourcing like any other.
+- **Puku does not manufacture garments.** Clothing and promotional items are "manufactured
+  and branded by the supplier" — Puku sources the options and coordinates the quotation.
+- Branding is limited to what is on `branding.html`: branded clothing and promotional
+  items, business websites, and simple business apps and digital tools. No social media
+  management, SEO packages, paid advertising, video, enterprise software, mobile apps,
+  complex ecommerce, IT support, cybersecurity or AI consulting. Puku is not described as
+  an advertising agency, a software company or an IT consultancy.
 
 ---
 
