@@ -250,7 +250,10 @@ a { color: var(--fg-strong); }
   min-height: 72px;
   margin-bottom: clamp(2rem, 1.4rem + 2.7vw, 3.5rem);
 }
-@media (min-width: 56rem) { .masthead { min-height: 88px; flex-wrap: nowrap; } }
+/* The nav breakpoint is its own number, not the layout's. Six items at label
+   size need ~1024px before they fit on one line; below that the Menu button
+   is correct, even though the page grid has already gone to 12 columns.      */
+@media (min-width: 64rem) { .masthead { min-height: 88px; flex-wrap: nowrap; } }
 
 .mark {
   display: flex;
@@ -284,10 +287,17 @@ a { color: var(--fg-strong); }
 }
 .nav a:hover { color: var(--fg-strong); }
 
-@media (min-width: 56rem) {
+@media (min-width: 64rem) {
   .menubtn { display: none; }
-  .nav ul { display: flex; gap: 2rem; }
-  .nav a { display: flex; align-items: center; padding-block: 12px; }
+  /* The gap tightens as the viewport narrows so the six labels keep clear of
+     the wordmark at 1024px without losing air on a wide screen.              */
+  .nav ul { display: flex; gap: clamp(1.25rem, 0.1rem + 1.8vw, 2rem); }
+  .nav a {
+    display: flex;
+    align-items: center;
+    padding-block: 12px;
+    white-space: nowrap;
+  }
   .nav a[aria-current="page"] {
     color: var(--fg-strong);
     box-shadow: inset 0 -2px 0 currentColor;
@@ -296,7 +306,7 @@ a { color: var(--fg-strong); }
 
 /* Mobile navigation sits in normal flow and pushes the page down: no
    positioning, no z-index, no scroll lock, no focus trap.                   */
-@media (max-width: 55.999rem) {
+@media (max-width: 63.999rem) {
   .nav {
     display: none;
     width: 100%;
@@ -433,6 +443,36 @@ a { color: var(--fg-strong); }
   text-underline-offset: 4px;
 }
 .plate:hover .plate__go { text-decoration-thickness: 2px; }
+
+/* --- The secondary line --------------------------------------------------- */
+/* Branding and digital work is not an area of supply and must never read as a
+   fourth plate. It gets no white ground and no 3px group rule — a 2px section
+   rule and the tint ground put it a clear tier below the divisions.          */
+
+.also {
+  margin-top: clamp(2.5rem, 1.8rem + 2.8vw, 4rem);
+  border-top: var(--rule-section);
+  padding-top: 28px;
+}
+.also h2 { font-size: var(--fs-h3); margin-top: 12px; }
+.also__body { margin-top: 16px; }
+.also__body p { max-width: 62ch; }
+.also__body p + p { margin-top: 20px; }
+.also__go {
+  font: 400 var(--fs-label)/1.2 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-strong);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.also__go:hover { text-decoration-thickness: 2px; }
+
+@media (min-width: 56rem) {
+  .also__head { grid-column: 1 / 5; }
+  .also__body { grid-column: 6 / -1; margin-top: 0; }
+}
 
 /* --- Steps ---------------------------------------------------------------- */
 
