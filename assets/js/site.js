@@ -132,16 +132,32 @@ var PUKU = {
         headers: { Accept: "application/json" }
       })
         .then(function (res) {
-          if (res.ok && sent) {
-            form.hidden = true;
-            sent.hidden = false;
-            var heading = sent.querySelector("h3");
-            if (heading) heading.focus();
-          } else if (!res.ok) {
-            fail();
+          if (res.ok) {
+            if (sent) {
+              form.hidden = true;
+              sent.hidden = false;
+              var heading = sent.querySelector("h3");
+              if (heading) heading.focus();
+            }
+            return;
           }
+          /* Formspree explains the refusal in the response body. Show it —
+             a generic "that did not go through" leaves the visitor and the
+             owner with nothing to act on. */
+          return res.json().then(
+            function (data) {
+              var detail =
+                data && data.errors && data.errors.length
+                  ? data.errors
+                      .map(function (err) { return err.message; })
+                      .join(" ")
+                  : "";
+              fail(detail);
+            },
+            function () { fail(""); }
+          );
         })
-        .catch(fail)
+        .catch(function () { fail(""); })
         .then(function () {
           if (button) {
             button.disabled = false;
@@ -151,9 +167,15 @@ var PUKU = {
         });
     });
 
-    function fail() {
+    function fail(detail) {
       var note = form.querySelector(".form__fail");
-      if (note) note.hidden = false;
+      if (!note) return;
+      var why = note.querySelector(".form__why");
+      if (why) {
+        why.textContent = detail || "";
+        why.hidden = !detail;
+      }
+      note.hidden = false;
     }
   });
 
