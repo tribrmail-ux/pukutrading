@@ -1,14 +1,9 @@
 /* ==========================================================================
    Puku Trading Trust — site.js
 
-   Everything here is enhancement. With JavaScript off: the menu is already
-   open in the markup, the enquiry form posts natively, and the chlorine
-   schematic renders in its final state.
+   Everything here is enhancement. With JavaScript off the menu is already
+   open in the markup and the enquiry form posts natively.
    ========================================================================== */
-
-/* This must run before anything paints: the schematic's start state is scoped
-   to html.js so that a no-JS visitor never sees a bar waiting to animate. */
-document.documentElement.className += " js";
 
 /* --------------------------------------------------------------------------
    CONFIG
@@ -65,29 +60,6 @@ var PUKU = {
         "https://wa.me/" + number + "?text=" + encodeURIComponent(text)
       );
     }
-  }
-
-  /* ---- The one motion on the site --------------------------------------- */
-  /* The shortfall bar draws itself in, once, on first view. Never attached
-     when the visitor has asked for reduced motion.                          */
-
-  var track = document.querySelector(".track--measured");
-  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (track && !still && "IntersectionObserver" in window) {
-    track.classList.add("is-armed");
-    var io = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.remove("is-armed");
-            io.disconnect();
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-    io.observe(track);
   }
 
   /* ---- Enquiry form ----------------------------------------------------- */
