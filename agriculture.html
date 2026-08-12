@@ -28,7 +28,8 @@
 
 <link rel="preload" href="/assets/fonts/instrument-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/instrument-bold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v=3">
+<link rel="preload" href="/assets/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css?v=4">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -62,136 +63,253 @@
 </script>
 </head>
 <body data-subject="farm supplies: ">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="puku" viewBox="8 8 1608 444"><path fill="currentColor" fill-rule="evenodd" d="M558 450C556 449 550 448 545 448C536 447 528 446 512 441C508 440 504 440 503 440C502 440 500 439 498 438C496 437 492 435 490 434C474 427 466 422 451 410C438 400 428 387 418 366C413 353 408 332 407 312C405 288 405 13 407 12C409 10 494 10 495 12C496 13 497 56 497 159C497 272 497 306 498 310C499 313 500 318 501 321C504 334 513 349 523 358C530 364 542 370 552 373C560 376 591 376 599 373C602 372 606 371 608 371C610 371 614 370 615 369C617 368 620 367 623 365C633 361 646 349 650 341C651 339 653 335 654 334C657 327 659 316 660 305C661 298 662 243 662 154C662 45 662 13 663 12C664 10 750 10 751 12C752 13 752 45 752 153C752 231 752 300 752 308C750 328 747 345 740 362C739 366 737 370 736 372C735 374 734 376 734 377C733 377 732 380 730 383C726 391 717 401 708 410C701 417 692 424 691 424C690 424 689 424 689 425C686 427 670 435 663 437C660 438 655 440 652 441C649 443 646 444 645 444C644 444 642 444 639 445C637 446 631 447 625 448C620 448 614 449 612 450C607 452 563 452 558 450ZM1420 450C1418 449 1412 448 1407 448C1398 447 1389 446 1374 441C1370 440 1366 440 1366 440C1365 440 1362 439 1360 437C1357 436 1353 434 1351 433C1335 426 1321 418 1309 407C1303 401 1294 391 1291 386C1290 384 1288 381 1287 379C1279 366 1273 347 1270 324C1268 310 1267 307 1268 161L1268 11L1313 11C1353 11 1357 11 1358 12C1359 14 1360 45 1360 160C1360 293 1360 308 1361 313C1362 316 1363 321 1363 323C1365 332 1374 347 1384 357C1391 363 1403 370 1412 372C1414 373 1418 374 1420 375C1426 376 1456 375 1461 373C1464 372 1467 372 1468 372C1472 372 1488 365 1494 360C1502 354 1509 347 1512 340C1516 332 1520 325 1520 323C1520 322 1520 319 1521 316C1523 312 1523 302 1524 162L1524 11L1566 11C1588 11 1609 11 1611 11L1616 12L1616 158C1616 283 1615 305 1614 308C1613 311 1612 316 1612 321C1611 334 1606 353 1601 364C1596 377 1592 383 1586 392C1574 408 1562 419 1545 429C1541 430 1538 432 1537 432C1536 432 1534 433 1533 434C1533 435 1532 436 1531 436C1530 436 1528 436 1526 437C1516 442 1499 446 1487 448C1481 448 1476 449 1474 450C1469 452 1425 452 1420 450ZM12 439C12 438 12 341 12 223L12 7L119 8C224 8 226 8 236 10C255 14 262 16 273 23C297 35 314 52 325 76C329 82 332 91 333 95C340 119 340 117 340 143C340 166 340 169 338 177C333 194 331 199 325 211C324 213 324 215 324 215C324 216 321 220 318 224C316 228 312 233 310 236C306 242 290 257 285 261C282 262 278 264 267 270C266 271 262 272 258 274C253 275 247 277 244 278C241 279 234 280 229 281C223 281 216 282 213 283C209 283 183 283 154 283C112 284 102 284 101 285C100 286 100 308 100 362C100 404 99 438 99 439C98 440 13 440 12 439ZM840 439C839 438 839 15 840 11L841 8L884 8C925 8 926 8 928 9C928 11 929 38 929 96C928 192 928 186 936 177C948 165 959 153 972 140C989 121 985 125 1006 103C1015 93 1024 84 1025 83C1025 83 1028 79 1031 76C1044 62 1086 18 1092 12L1097 8L1152 8C1210 8 1209 7 1207 11C1206 12 1167 51 1121 98C1074 145 1036 184 1036 185C1036 185 1039 191 1044 198C1049 204 1054 211 1056 214C1058 217 1062 223 1066 227C1069 231 1072 236 1074 238C1076 242 1081 248 1088 257C1089 260 1092 264 1094 266C1096 268 1105 282 1116 296C1126 309 1135 322 1137 325C1138 327 1141 331 1143 333C1145 336 1148 340 1150 342C1152 345 1154 349 1165 363C1181 386 1187 393 1191 399C1200 412 1212 428 1216 433C1218 435 1219 438 1219 439C1219 439 1198 440 1162 440L1106 440L1103 436C1101 434 1099 431 1098 430C1097 428 1094 423 1091 419C1087 414 1083 408 1081 405C1079 402 1075 396 1072 392C1068 387 1064 381 1062 378C1060 374 1055 368 1052 363C1048 358 1044 352 1042 350C1041 348 1037 343 1035 339C1032 335 1028 329 1025 326C1023 322 1019 317 1017 314C1015 311 1012 307 1011 306C1010 304 1007 300 1005 297C1002 293 998 287 995 283C989 275 986 269 980 262C979 260 976 257 975 255C974 253 973 252 972 252C970 252 931 291 929 294C929 295 929 328 929 367C929 406 928 438 928 438C927 440 841 440 840 439ZM204 208C213 207 215 206 224 201C229 199 237 192 240 187C243 183 248 173 248 171C248 170 248 168 249 166C252 160 252 131 249 122C248 118 247 114 246 114C246 113 245 110 244 108C240 101 226 90 219 88C217 88 214 87 213 86C211 85 204 84 198 83C189 81 181 81 145 81L102 81L101 84C99 87 99 207 101 209C103 211 106 211 148 210C185 210 196 209 204 208Z"/></symbol></svg>
+
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="top">
-  <div class="wrap top__in">
-    <a class="mark" href="index.html"><img src="/assets/img/puku-logo.png?v=3" alt="Puku Trading Trust" width="440" height="121"></a>
-    <button class="navbtn" type="button" aria-expanded="false" aria-controls="nav" hidden>Menu</button>
-    <nav class="nav" id="nav" aria-label="Main">
-      <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="chemicals.html">Chemicals</a></li>
-          <li><a href="building-roofing.html">Building &amp; Roofing</a></li>
-          <li><a href="agriculture.html" aria-current="page">Agriculture</a></li>
-          <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<main id="main">
-
-<section class="hero">
+<section class="band band--navy hero">
   <div class="wrap">
-    <div class="hero__grid">
-      <div>
-        <h1>Farm supplies, ordered the easy way.</h1>
-      </div>
-      <div>
-        <p class="lead">Send a WhatsApp with what you need and where the farm is. A voice note and a photograph of the empty bag is a perfectly good order.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0">
-  <div class="wrap">
-    <div class="apps">
-
-      <div class="app">
-        <div>
-          <h2>Salt, licks and supplements</h2>
-          <p class="muted">Tell us the herd, the season and what you feed now. We quote what matches it.</p>
-        </div>
-        <ul class="list">
-          <li><b>Salt</b><span>Coarse and fine feed salt, salt blocks, bagged or bulk</span></li>
-          <li><b>Licks</b><span>Summer, winter, production and phosphate licks, block and meal</span></li>
-          <li><b>Minerals</b><span>Mineral and trace element supplements</span></li>
-          <li><b>Mixing</b><span>Lick raw materials and carriers if you mix your own</span></li>
-        </ul>
-      </div>
-
-      <div class="app">
-        <div>
-          <h2>Borehole and reservoir water</h2>
-          <p class="muted">Most farm water problems are the same three: it is hard, it is brackish, or something is growing in the reservoir.</p>
-        </div>
-        <ul class="list">
-          <li><b>Disinfection</b><span>Sodium and calcium hypochlorite and dosing consumables for reservoirs and troughs</span></li>
-          <li><b>Algae</b><span>Reservoir and trough treatment, tank cleaning chemistry</span></li>
-          <li><b>Scale</b><span>Antiscalants and softening media for pumps, pipes and troughs</span></li>
-          <li><b>Testing</b><span>Simple test kits so you can check the water yourself</span></li>
-          <li><b>Reticulation</b><span>Pipe, fittings, float valves, dosing pumps and tank accessories</span></li>
-        </ul>
-      </div>
-
-      <div class="app">
-        <div><h2>Dairy and kraal hygiene</h2></div>
-        <ul class="list">
-          <li><b>Dairy</b><span>Udder wash and teat dip, machine detergents and acid descalers, bulk tank cleaners</span></li>
-          <li><b>Kraal and pens</b><span>Disinfectants, footbath chemistry, lime, detergents and degreasers</span></li>
-          <li><b>Biosecurity</b><span>Vehicle and boot wash, spray equipment, hand hygiene</span></li>
-          <li><b>Equipment</b><span>Knapsack and pressure sprayers, brushware, hoses and fittings</span></li>
-        </ul>
-      </div>
-
-      <div class="app">
-        <div><h2>Fencing and consumables</h2></div>
-        <ul class="list">
-          <li><b>Wire</b><span>Barbed, plain and high&#8209;tensile wire, veld&#8209;span and jackal&#8209;proof mesh, droppers</span></li>
-          <li><b>Posts</b><span>Steel and treated timber posts, straining posts, strainers, staples, gate fittings</span></li>
-          <li><b>Electric fencing</b><span>Energisers, insulators, tape and wire, earth spikes and testers</span></li>
-          <li><b>Workshop and yard</b><span>Welding rods, cutting discs, tarpaulins, rope, lubricants, drums</span></li>
-        </ul>
-      </div>
-
-    </div>
-    <p class="prose muted" style="margin-top:3rem">If you chlorinate a reservoir, we will test what is actually in your drum, free of charge &mdash; <a href="chemicals.html#verification">chlorine strength verification</a>.</p>
-    <p class="actions"><a class="btn" href="contact.html">Send an enquiry</a></p>
-  </div>
-</section>
-
-</main>
-
-<a class="wa" href="https://wa.me/264812545797" data-wa aria-label="Message Puku Trading on WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.2.2 2.1 3.2 5.1 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.6-.3zM12 21.6c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3.5.9.9-3.4-.2-.4C3.3 15.7 2.8 14 2.8 12.2 2.8 7.1 6.9 3 12 3s9.2 4.1 9.2 9.2-4.1 9.4-9.2 9.4zM12 1C5.9 1 1 5.9 1 12c0 1.9.5 3.8 1.4 5.4L1 24l6.8-1.8c1.5.8 3.3 1.3 5.1 1.3h.1C18.1 23.5 23 18.6 23 12.5 23 6.4 18.1 1 12 1z"/></svg><span>WhatsApp</span>
-</a>
-
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot__grid">
-      <div>
-        <p class="mark"><img src="/assets/img/puku-logo-light.png?v=3" alt="Puku Trading Trust" width="440" height="121"></p>
-        <p>Independent sourcing and trading agent.<br>91 Nelson Mandela Avenue, Windhoek, Namibia</p>
-      </div>
-      <div>
-        <h2>What we source</h2>
+    <header class="masthead">
+      <a class="mark" href="index.html" aria-label="Puku Trading Trust — home">
+        <svg width="116" height="32" viewBox="8 8 1608 444" aria-hidden="true" focusable="false"><use href="#puku"/></svg>
+      </a>
+      <button class="menubtn" type="button" aria-expanded="false" aria-controls="nav" hidden>Menu</button>
+      <nav class="nav" id="nav" aria-label="Main">
         <ul>
-          <li><a href="chemicals.html">Industrial chemicals</a></li>
-          <li><a href="building-roofing.html">Building &amp; roofing</a></li>
-          <li><a href="agriculture.html">Agriculture</a></li>
-          <li><a href="chemicals.html#verification">Chlorine verification</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="chemicals.html">Chemicals</a></li>
+            <li><a href="building-roofing.html">Building &amp; roofing</a></li>
+            <li><a href="agriculture.html" aria-current="page">Agriculture</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
+      </nav>
+    </header>
+
+    <div class="grid hero__grid" id="main">
+      <div class="hero__main">
+        <p class="label label--accent">Division &middot; Agriculture</p>
+        <h1>Farm supplies, ordered the easy way.</h1>
+        <p class="lead">Send a WhatsApp with what you need and where the farm is. A voice note and a photograph of the empty bag is a perfectly good order.</p>
+          <p class="hero__actions">
+            <a class="btn btn--primary" href="contact.html">Request a quotation</a>
+            <a class="btn btn--ghost" href="https://wa.me/264812545797" data-wa>WhatsApp +264 81 254 5797</a>
+          </p>
+      </div>
+      <div class="hero__aside">
+        <p class="label label--accent">At a glance</p>
+        <dl class="keys">
+          <div>
+            <dt>Supply</dt>
+            <dd>Feed salt &middot; Licks &middot; Minerals</dd>
+          </div>
+          <div>
+            <dt>Water</dt>
+            <dd>Boreholes &middot; Reservoirs &middot; Troughs</dd>
+          </div>
+          <div>
+            <dt>Fencing</dt>
+            <dd>Wire &middot; Posts &middot; Electric</dd>
+          </div>
+          <div>
+            <dt>Delivery</dt>
+            <dd>To the farm</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--tint">
+  <div class="wrap">
+    <div class="sechead sechead__cols">
+      <p class="label">What we supply</p>
+      <h2>Feed, water, hygiene and fencing</h2>
+      <p class="sechead__intro">If you chlorinate a reservoir, we will also test what is actually in your drum, free of charge.</p>
+    </div>
+    <div class="apps">
+      <div class="app">
+        <div class="app__head">
+          <h2>Salt and licks</h2>
+          <p>Tell us the herd, the season and what you feed now, and we quote what matches it.</p>
+        </div>
+        <div class="app__body">
+          <dl class="spec">
+          <div>
+            <dt>Salt</dt>
+            <dd>Coarse and fine feed salt, salt blocks, bagged or bulk</dd>
+          </div>
+          <div>
+            <dt>Licks</dt>
+            <dd>Summer, winter, production and phosphate licks, block and meal</dd>
+          </div>
+          <div>
+            <dt>Minerals</dt>
+            <dd>Mineral and trace element supplements</dd>
+          </div>
+          <div>
+            <dt>Mixing</dt>
+            <dd>Lick raw materials and carriers if you mix your own</dd>
+          </div>
+          </dl>
+        </div>
+      </div>
+      <div class="app">
+        <div class="app__head">
+          <h2>Water</h2>
+          <p>Most farm water problems are the same three: it is hard, it is brackish, or something is growing in the reservoir.</p>
+        </div>
+        <div class="app__body">
+          <dl class="spec">
+          <div>
+            <dt>Disinfection</dt>
+            <dd>Sodium and calcium hypochlorite and dosing consumables for reservoirs and troughs</dd>
+          </div>
+          <div>
+            <dt>Algae</dt>
+            <dd>Reservoir and trough treatment, tank cleaning chemistry</dd>
+          </div>
+          <div>
+            <dt>Scale</dt>
+            <dd>Antiscalants and softening media for pumps, pipes and troughs</dd>
+          </div>
+          <div>
+            <dt>Testing</dt>
+            <dd>Simple test kits so you can check the water yourself</dd>
+          </div>
+          <div>
+            <dt>Reticulation</dt>
+            <dd>Pipe, fittings, float valves, dosing pumps and tank accessories</dd>
+          </div>
+          </dl>
+        </div>
+      </div>
+      <div class="app">
+        <div class="app__head">
+          <h2>Hygiene</h2>
+          <p>For the dairy, the kraal and the handling facilities.</p>
+        </div>
+        <div class="app__body">
+          <dl class="spec">
+          <div>
+            <dt>Dairy</dt>
+            <dd>Udder wash and teat dip, machine detergents and acid descalers, bulk tank cleaners</dd>
+          </div>
+          <div>
+            <dt>Kraal and pens</dt>
+            <dd>Disinfectants, footbath chemistry, lime, detergents and degreasers</dd>
+          </div>
+          <div>
+            <dt>Biosecurity</dt>
+            <dd>Vehicle and boot wash, spray equipment, hand hygiene</dd>
+          </div>
+          <div>
+            <dt>Equipment</dt>
+            <dd>Knapsack and pressure sprayers, brushware, hoses and fittings</dd>
+          </div>
+          </dl>
+        </div>
+      </div>
+      <div class="app">
+        <div class="app__head">
+          <h2>Fencing</h2>
+          <p>Wire, posts and the consumables that run out at the wrong moment.</p>
+        </div>
+        <div class="app__body">
+          <dl class="spec">
+          <div>
+            <dt>Wire</dt>
+            <dd>Barbed, plain and high&#8209;tensile wire, veld&#8209;span and jackal&#8209;proof mesh, droppers</dd>
+          </div>
+          <div>
+            <dt>Posts</dt>
+            <dd>Steel and treated timber posts, straining posts, strainers, staples, gate fittings</dd>
+          </div>
+          <div>
+            <dt>Electric fencing</dt>
+            <dd>Energisers, insulators, tape and wire, earth spikes and testers</dd>
+          </div>
+          <div>
+            <dt>Workshop and yard</dt>
+            <dd>Welding rods, cutting discs, tarpaulins, rope, lubricants, drums</dd>
+          </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sechead sechead__cols">
+      <p class="label">Practical</p>
+      <h2>Dealing with us</h2>
+      <p class="sechead__intro">You do not need to write a specification to get a price.</p>
+    </div>
+    <dl class="spec">
+      <div>
+        <dt>WhatsApp is fine</dt>
+        <dd>A voice note and a photograph of the empty bag is a perfectly good enquiry.</dd>
       </div>
       <div>
-        <h2>Contact</h2>
+        <dt>Combine your loads</dt>
+        <dd>Salt, fencing wire and a drum of chlorine on one delivery beats three trips. Tell us everything, including the small items.</dd>
+      </div>
+      <div>
+        <dt>Say where the farm is</dt>
+        <dd>District and road, not just the postal town. It decides how the load gets to you.</dd>
+      </div>
+      <div>
+        <dt>Ask before you need it</dt>
+        <dd>Sourced goods take time to arrive. A week of notice usually costs less than an urgent load.</dd>
+      </div>
+    </dl>
+    <p style="margin-top:32px"><a class="btn btn--primary" href="contact.html">Send an enquiry</a></p>
+  </div>
+</section>
+
+<footer class="band band--navy foot">
+  <div class="wrap">
+    <a class="mark" href="index.html" aria-label="Puku Trading Trust — home">
+      <svg width="101" height="28" viewBox="8 8 1608 444" aria-hidden="true" focusable="false"><use href="#puku"/></svg>
+    </a>
+    <div class="foot__cols">
+      <div class="foot__col">
+        <p class="label">Contact</p>
         <ul>
           <li><a href="https://wa.me/264812545797" data-wa>WhatsApp +264 81 254 5797</a></li>
           <li><a href="tel:+264812545797">Call +264 81 254 5797</a></li>
           <li><a href="mailto:pukutrading@gmail.com">pukutrading@gmail.com</a></li>
-          <li><a href="contact.html">Send an enquiry</a></li>
+          <li><span class="foot__line">91 Nelson Mandela Avenue, Windhoek</span></li>
         </ul>
       </div>
+      <div class="foot__col">
+        <p class="label">Pages</p>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="chemicals.html">Chemicals</a></li>
+          <li><a href="building-roofing.html">Building &amp; roofing</a></li>
+          <li><a href="agriculture.html">Agriculture</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <p class="label">Puku Trading Trust</p>
+        <p class="foot__about">An independent sourcing and trading agent in Windhoek. We hold no stock and manufacture nothing.</p>
+        <p class="foot__about">We source, specify, quote and deliver. Trust T&nbsp;65/2018.</p>
+      </div>
     </div>
-    <div class="foot__legal">
-      <span>&copy; <span data-year>2026</span> Puku Trading Trust</span>
-      <span>Trust T 65/2018</span>
-      <span>Sourcing agent. We do not hold stock.</span>
-    </div>
+    <p class="foot__legal label">&copy; <span data-year>2026</span> Puku Trading Trust &middot; Windhoek, Namibia</p>
   </div>
 </footer>
 
-<script src="/assets/js/site.js?v=3" defer></script>
+<nav class="bar" aria-label="Contact">
+  <a href="https://wa.me/264812545797" data-wa>WhatsApp</a>
+  <a href="tel:+264812545797">Call</a>
+</nav>
+
+<script src="/assets/js/site.js?v=4" defer></script>
 </body>
 </html>

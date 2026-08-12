@@ -1,122 +1,177 @@
 # Puku Trading Trust — website
 
 Five pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
-build step. Open a file in a text editor, change it, push it.
+build step. Open a file in a text editor, change it, push it — Cloudflare redeploys.
 
-About **68 KB per page** including the fonts and the logo, against a 500 KB target.
+About **75 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
+against a 500 KB target. Zero external requests: no Google Fonts, no CDN, no tracker.
 
 ```
-index.html              Home — what Puku does, the four divisions, how it works,
-                        the agent model, enquiry form
-chemicals.html          Industrial chemicals, by application, plus the chlorine
-                        strength verification service
+index.html              Home — hero, four divisions, how it works, the agent model, enquiry
+chemicals.html          Industrial chemicals, and the chlorine strength verification service
 building-roofing.html   Roofing and building materials
 agriculture.html        Farm and livestock supplies
 contact.html            Enquiry form and contact details
-404.html                Shown for a bad URL (not part of the five pages, but the
-                        host needs it)
+404.html                Shown for a bad URL
 ```
+
+Everything on the site is real. There are no placeholders left to fill in.
 
 ---
 
-## 1. Nothing left to fill in
+## 1. How the design works
 
-Every detail on the site is real. There are no `[[PLACEHOLDER]]` markers left — searching
-the folder for `[[` returns only two guard clauses in `assets/js/site.js`, which check
-whether the Formspree endpoint has been configured.
+Read this before editing anything visual. The whole system is four ideas, and they only
+work together.
 
-Opening hours are **Monday to Friday, 08:00–17:00**, shown on the Contact page and also
-in the LocalBusiness structured data so Google can display them.
+### Bands
 
-### Details already in the site
+Every page is a stack of **full-bleed bands**. A band is white, tint (`.band--tint`), or
+navy (`.band--navy`). A band sets its own colour tokens, so everything inside it — text,
+rules, labels, focus rings, the accent — inverts automatically on navy. There are no
+"dark mode" overrides anywhere in the stylesheet; there is nothing to keep in sync.
 
-These are used throughout and are correct as written. If any changes, search and replace
-it the same way:
+The home page runs **navy → tint → white → navy → white → navy**. Dark top, dark keel,
+dark tail. That silhouette is what makes the site recognisable at thumbnail size, which
+matters because there is no photography and no icon set.
 
-- **Puku Trading Trust**, Trust **T 65/2018** (footer only, small)
-- **91 Nelson Mandela Avenue, Windhoek, Namibia**
-- **+264 81 254 5797** — WhatsApp and phone. In links it appears as `264812545797`
-  (WhatsApp, digits only) and `+264812545797` (`tel:`)
-- **pukutrading@gmail.com**
-- **Monday to Friday, 08:00–17:00** — on the Contact page and in the structured data on
-  every page, so change it in both if the hours change
+Every page opens with a navy band, and the header sits *inside* it. That is why the
+wordmark needs only one colour treatment on the whole site.
 
-### The logo
+### The rule grammar
 
-The master artwork lives in `assets/img/source/` and is deliberately not published —
-`.assetsignore` keeps that folder out of the deployed site. Everything the site uses is
-derived from it:
+Four line weights, four meanings. This is the site's entire ornament:
 
-```
-assets/img/source/puku-logo.png   master file, transparent background
-assets/img/puku-logo.png          header wordmark, navy, trimmed, 236px wide
-assets/img/puku-logo-light.png    footer wordmark, white, same artwork
-assets/img/apple-touch-icon.png   the logo's own P, white on navy
-assets/img/icon-192.png           same, for Android
-assets/img/icon-512.png           same, larger
-favicon.ico                       same, at 16/32/48px
-assets/img/og.png                 social preview, built from the wordmark
-```
+| Token | Weight | Means |
+|---|---|---|
+| `--rule-group` | 3px navy | **a group starts here** — the four division plates and the chlorine block, nowhere else |
+| `--rule-section` | 2px navy | a top-level section starts here |
+| `--rule-struct` | 1px navy | structure inside a section — the four step tops |
+| `--rule-hair` | 1px grey | between peers — table rows, form separators, footer columns |
 
-The wordmarks are twice the size they display at, so they stay sharp on phone screens.
-Display width is set in CSS (`.mark img`), not in the HTML.
+If you add a border that isn't one of these four, the page gets busier and the four
+divisions stop reading as four groups. That is precisely the failure this design was
+rebuilt to fix.
 
-**If the logo ever changes**, replace `assets/img/source/puku-logo.png` and regenerate the
-rest — or just re-cut the files above by hand at the same sizes.
+### The four divisions
 
-**The navy is a single CSS variable.** `--navy` in `assets/css/site.css` is `#092c4d`,
-sampled from the logo file itself. Headings, the footer, buttons and links all derive from
-it, so changing that one line recolours the site.
+The grouping is carried by **three independent cues**, and two of them survive any colour
+failure:
+
+1. **A 3px navy rule** across the top of every plate. This is the mechanism. Never remove it.
+2. **Asymmetric padding** — 20px above, 32px below, 14px heading-to-text. The largest gap
+   inside a plate is a quarter of the gap between plates, so proximity alone groups them.
+3. **A white plate on the tint ground.** Reinforcement only. It is a 1.17:1 difference and
+   will wash out on a cheap phone in daylight, which is where this site is actually read.
+
+The review gate: screenshot the divisions at 320px wide and convert to greyscale. If the
+four plates do not read as four separate groups, something has been broken. The fix is
+never to darken the tint.
+
+### Type
+
+Two families, three files. **Instrument Sans** 400 and 700 sets everything that is a
+sentence. **Geist Mono** sets labels only — eyebrows, key strips, nav, form hints, step
+numerals — never a sentence, never above `--fs-label`, always uppercase. The moment mono
+sets a paragraph or a button, the page reads as a retro terminal instead of a supplier.
+
+There is no 600 weight in the repo. Do not specify one: CSS would resolve it up to 700 and
+the tier you intended would silently vanish.
+
+### And three absolutes
+
+**No border-radius, anywhere.** **No box-shadow, anywhere.** **Nothing is centred, ever** —
+every left edge on the site lands on the same vertical line.
 
 ---
 
-## 2. Deploying
+## 2. Colours
+
+All of it is in `:root` at the top of `assets/css/site.css`. One hue family: navy 209°,
+neutrals 209–216°, accent 186–192°. There is deliberately **no warm colour** in the system.
+
+```css
+--navy:        #092c4d   /* from the logo — everything is built on it */
+--tint:        #eaeef3   /* the one light alternate ground */
+--slate:       #33455c   /* prose on light */
+--slate-2:     #46586d   /* secondary text and labels on light */
+--on-navy:     #b9c9d9   /* secondary text on navy */
+--line-strong: #77879a   /* form borders */
+--teal:        #06636b   /* accent on light — 6.99:1 */
+--cyan:        #5ec4de   /* accent on navy — 7.05:1 */
+```
+
+Verified contrast: navy on white 14.20:1, slate 9.78:1, slate-2 7.30:1, teal 6.99:1; on
+the tint ground navy 12.19:1, slate 8.40:1, teal 6.00:1; on navy, white 14.20:1 and
+on-navy 8.40:1.
+
+**Never write a colour literal in a rule** — always `var(--accent)` and so on. A literal
+can reach the wrong ground and produce an unreadable pair. There is one accent hue at two
+lightnesses and the band swaps them for you.
+
+---
+
+## 3. The logo
+
+The master artwork is `assets/img/source/puku-logo.png`, kept in the repo and excluded
+from the published site by `.assetsignore`.
+
+`assets/img/puku-logo.svg` is that artwork **traced to vector** — one path, `currentColor`,
+so it is sharp at any size and the same file serves the white header mark and the white
+footer mark. The path is inlined into each page as a hidden `<symbol id="puku">` and used
+twice per page via `<use href="#puku">`.
+
+There are no PNG versions of the wordmark in the layout, deliberately: a raster at header
+size upscales on a phone and looks soft and pasted-on, which was the original complaint.
+
+To regenerate after a logo change, replace the master and re-trace it, or hand-edit the
+`viewBox="8 8 1608 444"` path in `puku-logo.svg` — the aspect ratio 1608:444 is exactly
+402:111 and should not be re-cropped.
+
+---
+
+## 4. Deploying
 
 The site is on **Cloudflare**, built from this GitHub repository. Push to `main` and it
-redeploys itself within a minute or two. Watch it under **Workers & Pages → pukutrading →
+redeploys within a minute or two. Watch it under **Workers & Pages → pukutrading →
 Deployments**.
 
-`wrangler.jsonc` tells Cloudflare what to publish — the whole folder, no server-side
-code, and `404.html` for unknown URLs. Do not delete it; the deployment fails without it.
-`.assetsignore` keeps the git plumbing and this README out of the published output.
+`wrangler.jsonc` tells Cloudflare what to publish. Do not delete it; the deploy fails
+without it. `.assetsignore` keeps the git plumbing, this README and the logo master out of
+the published output.
 
-**The first build only starts on the next push.** When a repository is first connected,
-Cloudflare says "You can now push a commit to your Git repository to start your first
-build" and then waits — it does not build the commit already at the top of `main`. Push
-anything, however small, and it runs.
+**If you change the CSS, the JS or an image, bump the version token.** Every asset URL
+carries `?v=` — currently `4`. Change it in all six HTML files (search for `?v=`). Without
+it, a visitor can be served new HTML against a cached old stylesheet, which renders the
+page as a broken hybrid. This has happened once already and it is not obvious when it does.
 
-If you ever need to deploy without git: **Workers & Pages → Create → Pages → Upload
-assets**, and drag the folder in.
-
----
-
-## 3. The enquiry form (Formspree)
-
-There is a form on the Home page and on Contact. Both work without JavaScript; with it,
-they submit in the background so the visitor stays on the page.
-
-**This is already wired up.** The form ID is `mwleowok`, and it appears in three places:
-the `action="..."` on the form in `index.html` and in `contact.html`, and
-`FORMSPREE_ENDPOINT` in `assets/js/site.js`. If you ever move to a different form, change
-all three.
-
-The one thing still to do: **submit the form once yourself**. Formspree sends a
-confirmation e-mail the first time a form is used, and until you click the link in it,
-nothing comes through.
-
-**File uploads.** The optional attachment field works, but Formspree only accepts uploads
-on their paid plans. On the free plan the enquiry still arrives and the attachment is
-dropped — so either tell people to send photographs on WhatsApp, or remove the field
-(search for `Specification or photo`).
-
-If the form ever fails, every page still carries the WhatsApp and `mailto:` links
-directly beneath it.
+**The first build after connecting a repository only starts on the next push.** Cloudflare
+says "You can now push a commit to your Git repository to start your first build" and then
+waits — it does not build what is already at the top of `main`.
 
 ---
 
-## 4. WhatsApp
+## 5. The enquiry form
 
-`assets/js/site.js` starts with the config block:
+There is a form on the home page and on Contact, with identical markup. Both post to
+Formspree (`mwleowok`) and both work with JavaScript disabled; the script only adds
+inline validation messages and swaps in the success block without leaving the page.
+
+The form ID appears in three places: the `action` on each of the two forms, and
+`FORMSPREE_ENDPOINT` in `assets/js/site.js`. Change all three together.
+
+**Still to do once:** submit the form yourself. Formspree e-mails a confirmation the first
+time a form is used and nothing is delivered until that link is clicked.
+
+Free plan: 50 submissions a month, and file uploads are not included — the enquiry still
+arrives, the attachment is dropped. Most Namibian buyers will send photographs on WhatsApp
+anyway.
+
+---
+
+## 6. WhatsApp
+
+`assets/js/site.js` opens with the config block:
 
 ```js
 var PUKU = {
@@ -127,108 +182,73 @@ var PUKU = {
 };
 ```
 
-The number is digits only, full international format — Namibia is `264` and the leading
-zero drops, so `081 254 5797` becomes `264812545797`.
+Digits only, full international format — Namibia is `264` and the leading zero drops.
+The number is **also** written into the `wa.me/` links in the HTML so the site works
+without JavaScript; change it in both places.
 
-The floating button picks up which page it was clicked from, so someone on the chemicals
-page opens WhatsApp with *"Hi Puku Trading, I'd like a quote for chemicals: "* already
-typed. That comes from `data-subject` on each page's `<body>` tag.
-
-Because the site must work with JavaScript off, the number is **also** written into the
-`wa.me/` links in the HTML. Change it in both places.
+On phones there is a fixed bar at the bottom of every page with **WhatsApp** and **Call**.
+It replaced the floating round button.
 
 ---
 
-## 5. Pointing the domain (registered at Porkbun) at Cloudflare
+## 7. Pointing the domain at Cloudflare
 
-The domain stays registered at Porkbun — only DNS moves.
+`pukutrading.com` is registered at Porkbun. Only DNS moves; the registration stays there.
 
-1. **Cloudflare → Add a domain** → your domain → Free plan. It imports the existing DNS;
-   check the list, especially any `MX` records, or e-mail on the domain stops when the
-   nameservers change. Cloudflare gives you two nameservers.
-2. **Turn DNSSEC off at Porkbun first.** Changing nameservers with a DNSSEC record on file
-   takes the domain offline entirely and gives you no useful error.
-3. **Porkbun → Domain Management → your domain → Authoritative Nameservers → Edit.**
-   Replace Porkbun's with Cloudflare's two.
-4. Wait for Cloudflare to report the domain active — usually minutes.
-5. **Workers & Pages → pukutrading → Domains → Add Domain** → `pukutrading.com`, then
-   `www.pukutrading.com`. Cloudflare creates the records and the certificate itself.
-6. The site already uses `pukutrading.com` in its canonical tags, sitemap and social
-   preview URLs, so nothing needs changing once the domain resolves.
+1. **Cloudflare → Add a domain** → `pukutrading.com` → Free plan. Check the imported
+   records, especially any `MX`, or e-mail on the domain stops when the nameservers change.
+   Cloudflare gives you two nameservers.
+2. **Turn DNSSEC off at Porkbun first.** Switching nameservers with a DNSSEC record on file
+   takes the domain offline entirely and the error tells you nothing.
+3. **Porkbun → Domain Management → pukutrading.com → Authoritative Nameservers → Edit** →
+   replace with Cloudflare's two.
+4. When Cloudflare reports the domain active: **Workers & Pages → pukutrading → Domains →
+   Add Domain** → `pukutrading.com`, then `www.pukutrading.com`.
 
-The `*.workers.dev` address keeps working throughout, so you always have a link to send.
-
----
-
-## 6. Editing
-
-**Colours** live at the top of `assets/css/site.css`:
-
-```css
-:root {
-  --navy:    #092c4d;   /* sampled from the logo — everything builds on this */
-  --text:    #1e2733;   /* body text                                   */
-  --muted:   #5c6675;   /* secondary text                              */
-  --line:    #e2e6ec;   /* hairlines                                   */
-  --surface: #f6f7f9;   /* tinted section backgrounds                  */
-  --accent:  #a85a0e;   /* the only accent — used on one thing         */
-}
-```
-
-Change a value here and it changes everywhere. If you replace `--accent`, check that
-white text still reads on it.
-
-**The form is duplicated** in `index.html` and `contact.html` rather than injected by
-JavaScript, so that it still works if a script fails. Change one, change the other.
-
-**Adding a section**: copy an existing `<section class="section">` block. The home page is
-deliberately five sections and no more — if you add a sixth, consider what comes off.
-
----
-
-## 7. What the site does not say
-
-The copy was written to these constraints. Keep them if you edit:
-
-- No supplier, manufacturer or brand is named as a principal or partner.
-- No claim of stock, warehousing, a fleet, staff or years of experience.
-- No certifications — none are held.
-- No invented statistics, client counts or testimonials.
-- No prices and no delivery times.
-- The chlorine verification is described as a field titration and explicitly not as a
-  laboratory certificate.
-
-The only figures on the site are the bars in the verification section, captioned as an
-illustration rather than a measurement.
+The site already uses `pukutrading.com` in its canonical tags, sitemap and preview URLs, so
+nothing needs changing once it resolves. The `*.workers.dev` address keeps working
+throughout.
 
 ---
 
 ## 8. Search engines
 
-Once the domain is live:
-
 1. Add the site to [Google Search Console](https://search.google.com/search-console) and
-   submit `https://yourdomain/sitemap.xml`.
-2. Create a **Google Business Profile** for Puku Trading Trust at the Windhoek address.
-   For "chemical supplier Windhoek" this matters more than anything on the site itself.
-   Use exactly the same name, address and number as the site.
-3. LocalBusiness structured data is already on every page, using the real address. It only
-   becomes correct once `[[DOMAIN]]` is replaced.
+   submit `https://pukutrading.com/sitemap.xml`.
+2. Create a **Google Business Profile** at the Windhoek address. For "chemical supplier
+   Windhoek" this does more than anything on the site itself. Use exactly the same name,
+   address and number.
+3. LocalBusiness structured data with the real address and opening hours is already on
+   every page.
 
 Titles and descriptions target *industrial chemicals Namibia*, *chemical supplier
-Windhoek*, *roofing sheets Namibia*, *water treatment chemicals Namibia*. They are in the
-`<title>` and `<meta name="description">` at the top of each file.
+Windhoek*, *roofing sheets Namibia*, *water treatment chemicals Namibia*.
 
 ---
 
-## 9. Accessibility and performance
+## 9. What the site does not say
 
-- One `<h1>` per page, headings in order, no skipped levels.
-- Every form field has a label; keyboard focus is visible; there is a skip link.
-- All text meets WCAG AA contrast against its background.
-- One animation on the whole site — the shortfall bar in the verification section — and it
-  is switched off for anyone whose device asks for reduced motion.
-- Fonts are self-hosted and subsetted (24 KB), so nothing is requested from Google Fonts
-  and no external request can block rendering.
-- No third-party scripts, no analytics, no cookies, so no cookie banner is needed. Adding
-  analytics later changes that.
+The copy was written to these limits. Keep them:
+
+- No supplier, manufacturer or brand named as a principal or partner.
+- No claim of stock, warehousing, a fleet, staff or years of experience.
+- No certifications — none are held.
+- No invented statistics, client counts or testimonials.
+- No prices and no delivery times.
+- **No numbers on the chlorine schematic.** The bars are a drawing; the caption says so.
+  Any figure printed there would be an invented statistic.
+
+---
+
+## 10. Accessibility and motion
+
+- One `<h1>` per page, headings in order, every form field labelled, visible focus on
+  everything, a skip link.
+- All text meets WCAG AA against its background; form borders clear the 3:1 non-text
+  minimum against both neighbours.
+- **One animation exists on the entire site**: the chlorine shortfall bar draws itself in
+  once, on first view, on the Chemicals page. It is skipped entirely under
+  `prefers-reduced-motion`, and without JavaScript the bar renders in its final state.
+  Nothing else moves — no scroll effects, no card reveals, no hover lifts.
+- Fonts are self-hosted and subsetted, so nothing external can block rendering.
+- No cookies, so no cookie banner. Adding analytics later would change that.
