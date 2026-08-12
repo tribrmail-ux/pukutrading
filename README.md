@@ -162,12 +162,14 @@ inline validation messages and swaps in the success block without leaving the pa
 The form ID appears in three places: the `action` on each of the two forms, and
 `FORMSPREE_ENDPOINT` in `assets/js/site.js`. Change all three together.
 
-**Still to do once:** submit the form yourself. Formspree e-mails a confirmation the first
-time a form is used and nothing is delivered until that link is clicked.
+Free plan: **50 submissions a month, and no file uploads**. The attachment field was
+removed after a live test — Formspree refuses a submission carrying a file rather than
+delivering it without one, so the enquiry was lost rather than arriving incomplete.
+Drawings, data sheets and photographs are asked for on WhatsApp instead, which is how most
+customers will send them anyway.
 
-Free plan: 50 submissions a month, and file uploads are not included — the enquiry still
-arrives, the attachment is dropped. Most Namibian buyers will send photographs on WhatsApp
-anyway.
+If receiving documents through the website ever matters, Formspree's paid tier enables
+uploads; the field can be added back at that point.
 
 ---
 
@@ -180,7 +182,7 @@ var PUKU = {
   FORMSPREE_ENDPOINT: "https://formspree.io/f/mwleowok",
   WHATSAPP_NUMBER:    "264812545797",
   WHATSAPP_MESSAGE:   "Hi Puku Trading, I'd like a quote for ",
-  EMAIL:              "pukutrading@gmail.com"
+  EMAIL:              "info@pukutrading.com"
 };
 ```
 
