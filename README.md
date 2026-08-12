@@ -9,7 +9,7 @@ against a 500 KB target. Zero external requests: no Google Fonts, no CDN, no tra
 ```
 index.html              Home — hero, three areas of supply, how it works, about, enquiry
 chemicals.html          Industrial chemicals, by application area
-building-roofing.html   Roofing & sheeting, and layout/quantity assistance
+roofing.html            Roofing & sheeting, and layout/quantity assistance
 sourcing.html           Specialised industrial sourcing
 contact.html            Enquiry form and contact details
 404.html                Shown for a bad URL
@@ -136,12 +136,14 @@ The site is on **Cloudflare**, built from this GitHub repository. Push to `main`
 redeploys within a minute or two. Watch it under **Workers & Pages → pukutrading →
 Deployments**.
 
+`_redirects` maps the old `building-roofing.html` URL to `roofing.html`.
+
 `wrangler.jsonc` tells Cloudflare what to publish. Do not delete it; the deploy fails
 without it. `.assetsignore` keeps the git plumbing, this README and the logo master out of
 the published output.
 
 **If you change the CSS, the JS or an image, bump the version token.** Every asset URL
-carries `?v=` — currently `5`. Change it in all six HTML files (search for `?v=`). Without
+carries `?v=` — currently `6`. Change it in all six HTML files (search for `?v=`). Without
 it, a visitor can be served new HTML against a cached old stylesheet, which renders the
 page as a broken hybrid. This has happened once already and it is not obvious when it does.
 
