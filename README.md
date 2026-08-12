@@ -3,14 +3,14 @@
 Five pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
 build step. Open a file in a text editor, change it, push it — Cloudflare redeploys.
 
-About **75 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
+About **77 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
 against a 500 KB target. Zero external requests: no Google Fonts, no CDN, no tracker.
 
 ```
-index.html              Home — hero, four divisions, how it works, the agent model, enquiry
-chemicals.html          Industrial chemicals, and the chlorine strength verification service
-building-roofing.html   Roofing and building materials
-agriculture.html        Farm and livestock supplies
+index.html              Home — hero, three areas of supply, how it works, about, enquiry
+chemicals.html          Industrial chemicals, by application area
+building-roofing.html   Roofing & sheeting, and layout/quantity assistance
+sourcing.html           Specialised industrial sourcing
 contact.html            Enquiry form and contact details
 404.html                Shown for a bad URL
 ```
@@ -44,28 +44,28 @@ Four line weights, four meanings. This is the site's entire ornament:
 
 | Token | Weight | Means |
 |---|---|---|
-| `--rule-group` | 3px navy | **a group starts here** — the four division plates and the chlorine block, nowhere else |
+| `--rule-group` | 3px navy | **a group starts here** — the three division plates and the roofing feature block, nowhere else |
 | `--rule-section` | 2px navy | a top-level section starts here |
-| `--rule-struct` | 1px navy | structure inside a section — the four step tops |
+| `--rule-struct` | 1px navy | structure inside a section — the step tops |
 | `--rule-hair` | 1px grey | between peers — table rows, form separators, footer columns |
 
-If you add a border that isn't one of these four, the page gets busier and the four
-divisions stop reading as four groups. That is precisely the failure this design was
+If you add a border that isn't one of these four, the page gets busier and the
+divisions stop reading as separate groups. That is precisely the failure this design was
 rebuilt to fix.
 
-### The four divisions
+### The three divisions
 
 The grouping is carried by **three independent cues**, and two of them survive any colour
 failure:
 
 1. **A 3px navy rule** across the top of every plate. This is the mechanism. Never remove it.
 2. **Asymmetric padding** — 20px above, 32px below, 14px heading-to-text. The largest gap
-   inside a plate is a quarter of the gap between plates, so proximity alone groups them.
+   inside a plate is a fraction of the gap between plates, so proximity alone groups them.
 3. **A white plate on the tint ground.** Reinforcement only. It is a 1.17:1 difference and
    will wash out on a cheap phone in daylight, which is where this site is actually read.
 
 The review gate: screenshot the divisions at 320px wide and convert to greyscale. If the
-four plates do not read as four separate groups, something has been broken. The fix is
+plates do not read as separate groups, something has been broken. The fix is
 never to darken the tint.
 
 ### Type
@@ -141,7 +141,7 @@ without it. `.assetsignore` keeps the git plumbing, this README and the logo mas
 the published output.
 
 **If you change the CSS, the JS or an image, bump the version token.** Every asset URL
-carries `?v=` — currently `4`. Change it in all six HTML files (search for `?v=`). Without
+carries `?v=` — currently `5`. Change it in all six HTML files (search for `?v=`). Without
 it, a visitor can be served new HTML against a cached old stylesheet, which renders the
 page as a broken hybrid. This has happened once already and it is not obvious when it does.
 
@@ -235,8 +235,12 @@ The copy was written to these limits. Keep them:
 - No certifications — none are held.
 - No invented statistics, client counts or testimonials.
 - No prices and no delivery times.
-- **No numbers on the chlorine schematic.** The bars are a drawing; the caption says so.
-  Any figure printed there would be an invented statistic.
+- **Puku does not test, formulate, engineer, certify, manufacture or warehouse.** Product
+  suitability, specifications and safety documentation come from the manufacturer. The
+  site says "source", "obtain", "coordinate" and "remain your point of contact" — never
+  "specify", "design" or "test".
+- **No agriculture, livestock or feed advice.** Agriculture was removed as a division; an
+  agricultural product enquiry is handled under Specialised sourcing like any other.
 
 ---
 
@@ -246,9 +250,7 @@ The copy was written to these limits. Keep them:
   everything, a skip link.
 - All text meets WCAG AA against its background; form borders clear the 3:1 non-text
   minimum against both neighbours.
-- **One animation exists on the entire site**: the chlorine shortfall bar draws itself in
-  once, on first view, on the Chemicals page. It is skipped entirely under
-  `prefers-reduced-motion`, and without JavaScript the bar renders in its final state.
-  Nothing else moves — no scroll effects, no card reveals, no hover lifts.
+- **Nothing on the site animates.** No scroll effects, no card reveals, no hover lifts.
+  The only transitions are 120ms colour changes on interactive states.
 - Fonts are self-hosted and subsetted, so nothing external can block rendering.
 - No cookies, so no cookie banner. Adding analytics later would change that.

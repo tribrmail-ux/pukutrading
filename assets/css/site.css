@@ -400,6 +400,10 @@ a { color: var(--fg-strong); }
 .divisions { display: grid; gap: var(--plate-gap); }
 @media (min-width: 40rem) { .divisions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 76rem) { .divisions { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Three-up variants. Equal columns, same rule, same padding — no plate is
+   ever demoted, including the catch-all one.                               */
+@media (min-width: 62rem) { .divisions--three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 76rem) { .divisions--three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .plate {
   background: var(--white);
@@ -441,6 +445,8 @@ a { color: var(--fg-strong); }
 }
 @media (min-width: 40rem) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 76rem) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 62rem) { .steps--three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 76rem) { .steps--three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .steps > li { border-top: var(--rule-struct); padding-top: 16px; }
 .steps__n {
@@ -508,7 +514,7 @@ a { color: var(--fg-strong); }
 }
 @media (max-width: 55.999rem) { .app__body { margin-top: 20px; } }
 
-/* --- Chlorine verification: the only drawn object on the site ------------- */
+/* --- Feature block (3px rule, two columns) -------------------------------- */
 
 .verify { border-top: var(--rule-group); padding-top: 32px; }
 @media (min-width: 56rem) {
@@ -519,29 +525,29 @@ a { color: var(--fg-strong); }
 .verify .label { margin-bottom: 16px; }
 .verify h2 { margin-bottom: 16px; }
 
-.track + .track { margin-top: 24px; }
-.track .label { margin-bottom: 8px; }
-.track__bar { height: 14px; display: flex; gap: 2px; }
-.track--declared .track__bar { background: var(--line-strong); }
-.track--measured .fill { flex: 0 0 70%; background: var(--navy); }
-.track--measured .short { flex: 1 1 auto; background: var(--accent); }
-.track__note {
+/* --- Notes and qualifications --------------------------------------------- */
+/* Where the manufacturer, not Puku, owns the technical answer, the page says
+   so in a quiet note rather than a warning box.                             */
+
+.note {
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  padding-top: 20px;
   border-top: var(--rule-hair);
-  margin-top: 12px;
-  padding-top: 12px;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--fg-2);
+  max-width: 80ch;
 }
-
-/* The site's only motion: the shortfall draws itself into existence, once.
-   Without JS the bar renders in its final state.                            */
-.track--measured .fill,
-.track--measured .short { transition: flex-basis 600ms cubic-bezier(0.2, 0.6, 0.2, 1); }
-html.js .track--measured.is-armed .fill { flex-basis: 100%; }
-html.js .track--measured.is-armed .short { flex-basis: 0; }
-
-@media (prefers-reduced-motion: reduce) {
-  .track--measured .fill,
-  .track--measured .short { transition: none; }
+.note--tight { margin-top: 24px; }
+.app__note {
+  margin-top: 16px;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--fg-2);
+  max-width: 60ch;
 }
+.hero__note { margin-top: 20px; color: var(--fg-2); max-width: 46ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(2rem, 3vw, 2.5rem); }
 
 /* --- Forms ---------------------------------------------------------------- */
 
@@ -558,7 +564,7 @@ html.js .track--measured.is-armed .short { flex-basis: 0; }
   color: var(--fg-2);
   margin-top: 4px;
 }
-.field > :is(input, textarea) {
+.field > :is(input, select, textarea) {
   margin-top: 6px;
   min-height: 48px;
   padding: 12px 14px;
@@ -570,8 +576,9 @@ html.js .track--measured.is-armed .short { flex-basis: 0; }
   appearance: none;
 }
 .field textarea { min-height: 140px; resize: vertical; }
+.field select { min-height: 48px; }
 ::placeholder { color: var(--slate-2); opacity: 1; }
-:is(input, textarea):focus-visible { border-color: var(--navy); }
+:is(input, select, textarea):focus-visible { border-color: var(--navy); }
 .req { color: var(--accent); }
 
 .field__err {
