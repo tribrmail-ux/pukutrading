@@ -597,6 +597,10 @@ a { color: var(--fg-strong); }
 }
 @media (max-width: 55.999rem) { .enquiry__form { margin-top: 32px; } }
 
+/* The reason a submission was refused, quoted from the form service. */
+.form__why { display: block; margin-top: 8px; color: var(--fg-2); font-size: var(--fs-small); }
+.form__why[hidden] { display: none; }
+
 .sent { border-top: var(--rule-group); padding-block: 24px; }
 .sent .label { margin-bottom: 12px; }
 .sent h3 { margin-bottom: 12px; }
