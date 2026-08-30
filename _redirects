@@ -1,2 +1,11 @@
-# Old URL from before the page was renamed.
-/building-roofing.html  /roofing.html  301
+# Pages retired in the 2026 refocus onto three service areas. Every old URL
+# lands on the page that now carries its content, so nothing 404s and the
+# search-engine equity moves across.
+#
+#   chemicals  -> sourcing    industrial chemicals are a subsection of it
+#   roofing    -> drafting    roof sheeting layouts and QTOs live there now
+#   branding   -> technology  branding was dropped; the digital work moved
+/chemicals.html         /sourcing.html    301
+/roofing.html           /drafting.html    301
+/building-roofing.html  /drafting.html    301
+/branding.html          /technology.html  301
