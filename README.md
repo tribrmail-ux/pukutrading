@@ -1,22 +1,36 @@
 # Puku Trading Trust — website
 
-Six pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
+Five pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
 build step. Open a file in a text editor, change it, push it — Cloudflare redeploys.
 
-About **78 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
+About **79 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
 against a 500 KB target. Zero external requests: no Google Fonts, no CDN, no tracker.
 
 ```
-index.html              Home — hero, three areas of supply, branding, how it works, enquiry
-chemicals.html          Industrial chemicals, by application area
-roofing.html            Roofing & sheeting, and layout/quantity assistance
-sourcing.html           Specialised industrial sourcing
-branding.html           Business branding & digital tools — the secondary line
+index.html              Home — hero, the three areas, how we work, about, enquiry
+drafting.html           Technical drafting — AutoCAD 2D, roof sheeting layouts, SketchUp
+sourcing.html           Specialised sourcing — industrial chemicals and other products
+technology.html         Business technology — platforms, POS, business systems
 contact.html            Enquiry form and contact details
 404.html                Shown for a bad URL
 ```
 
 Everything on the site is real. There are no placeholders left to fill in.
+
+## The business, as the site presents it
+
+**Three service areas, in this order of emphasis. The order is the point.**
+
+| | Area | Weight | On the home page |
+|---|---|---|---|
+| 1 | Technical drafting | **Primary** — the active service | lead plate, spans the row, `--fs-h2` heading |
+| 2 | Specialised sourcing | Secondary — high-value upside | half-width plate, left |
+| 3 | Business technology | Selective, project-based | half-width plate, right, tagged `Selective · project based` |
+
+Industrial chemicals are a **subsection of specialised sourcing**, not a division. Roof
+sheeting layouts and QTOs are **drafting work**, not a materials business.
+
+Positioning statement: *Practical technical and business support for Namibian companies.*
 
 ---
 
@@ -45,7 +59,7 @@ Four line weights, four meanings. This is the site's entire ornament:
 
 | Token | Weight | Means |
 |---|---|---|
-| `--rule-group` | 3px navy | **a group starts here** — the three division plates and the roofing feature block, nowhere else |
+| `--rule-group` | 3px navy | **a group starts here** — the three division plates and the selected-work block, nowhere else |
 | `--rule-section` | 2px navy | a top-level section starts here |
 | `--rule-struct` | 1px navy | structure inside a section — the step tops |
 | `--rule-hair` | 1px grey | between peers — table rows, form separators, footer columns |
@@ -69,21 +83,27 @@ The review gate: screenshot the divisions at 320px wide and convert to greyscale
 plates do not read as separate groups, something has been broken. The fix is
 never to darken the tint.
 
-### The secondary line
+### The hierarchy is structural, not decorative
 
-**Branding & digital tools is not a fourth division and must never be built as one.** On
-the home page it sits below the three plates as `.also` — no white ground, no 3px group
-rule, a `--rule-section` above it and the heading one size down. That is the whole
-mechanism keeping it a tier below industrial chemicals, which is where the brief puts it.
-Turning it into a fourth `.plate` would silently promote it to equal weight.
+The three areas are **not equal** and the layout says so without a word of copy:
+
+- `.plate--lead` (technical drafting) takes `grid-column: 1 / -1`, so it spans the row on
+  its own, splits into two columns internally, and gets a `--fs-h2` heading and a
+  `--fs-lead` paragraph.
+- Sourcing and technology share the row below it as ordinary plates.
+- `.plate__tag` on technology reads `Selective · project based`, above the call to action
+  so the qualification is read before the click.
+
+**Do not flatten this into three equal cards, and do not promote another area into the
+lead slot.** Drafting is the service the business is actively building; the layout is the
+only thing on the page saying so.
 
 ### The nav breakpoint is its own number
 
-Horizontal navigation starts at **64rem**, not at the 56rem the page grid uses. Six labels
-at mono label size need about 1024px before they fit on one line; below that the Menu
-button is correct even though the layout has already gone to twelve columns. The two
-numbers are not interchangeable — a seventh nav item would mean raising 64rem again, not
-shortening a label until it just squeezes in.
+It currently equals the layout's 56rem, but only by coincidence. Five labels at mono label
+size clear the wordmark by 77px at 896px; when the site briefly had six, that number was
+1024px and the header broke between the two. **Re-measure if an item is ever added** — do
+not assume 56rem holds, and do not shorten a label until it just squeezes in.
 
 ### Type
 
@@ -153,16 +173,28 @@ The site is on **Cloudflare**, built from this GitHub repository. Push to `main`
 redeploys within a minute or two. Watch it under **Workers & Pages → pukutrading →
 Deployments**.
 
-`_redirects` maps the old `building-roofing.html` URL to `roofing.html`.
+`_redirects` carries the pages retired in the refocus. Every old URL 301s to the page that
+now holds its content, so nothing 404s and the search ranking follows:
+
+```
+/chemicals.html         -> /sourcing.html     chemicals are a subsection of it now
+/roofing.html           -> /drafting.html     roof layouts and QTOs are drafting work
+/building-roofing.html  -> /drafting.html     the original pre-rename URL
+/branding.html          -> /technology.html   branding was dropped; the digital work moved
+```
 
 `wrangler.jsonc` tells Cloudflare what to publish. Do not delete it; the deploy fails
 without it. `.assetsignore` keeps the git plumbing, this README and the logo master out of
 the published output.
 
 **If you change the CSS, the JS or an image, bump the version token.** Every asset URL
-carries `?v=` — currently `10`. Change it in all seven HTML files (search for `?v=`). Without
+carries `?v=` — currently `11`. Change it in all six HTML files (search for `?v=`). Without
 it, a visitor can be served new HTML against a cached old stylesheet, which renders the
 page as a broken hybrid. This has happened once already and it is not obvious when it does.
+
+The share image `assets/img/og.png` carries the same token, because Facebook, LinkedIn and
+WhatsApp cache a preview card by URL — without a new URL they keep showing the old one for
+weeks. If you change its wording, bump the token.
 
 **The first build after connecting a repository only starts on the next push.** Cloudflare
 says "You can now push a commit to your Git repository to start your first build" and then
@@ -179,14 +211,19 @@ inline validation messages and swaps in the success block without leaving the pa
 The form ID appears in three places: the `action` on each of the two forms, and
 `FORMSPREE_ENDPOINT` in `assets/js/site.js`. Change all three together.
 
+Categories, in the order they appear: Technical drafting · Roof sheeting layout / QTO ·
+Specialised sourcing · Industrial chemicals · POS implementation · Digital platform /
+website · Business system · Other.
+
 Free plan: **50 submissions a month, and no file uploads**. The attachment field was
 removed after a live test — Formspree refuses a submission carrying a file rather than
-delivering it without one, so the enquiry was lost rather than arriving incomplete.
-Drawings, data sheets and photographs are asked for on WhatsApp instead, which is how most
-customers will send them anyway.
+delivering it without one, so the enquiry was lost rather than arriving incomplete. A line
+under the form asks for drawings, sketches, specifications, SDS, photographs and
+spreadsheets on WhatsApp or by e-mail instead, which is how most customers send them anyway.
 
-If receiving documents through the website ever matters, Formspree's paid tier enables
-uploads; the field can be added back at that point.
+**This is the one gap against the brief**, which asked for file upload where supported. It
+is not supported on this plan. Formspree's paid tier enables uploads and the field can go
+back in at that point — the markup for it is in the git history.
 
 ---
 
@@ -236,14 +273,19 @@ throughout.
 
 1. Add the site to [Google Search Console](https://search.google.com/search-console) and
    submit `https://pukutrading.com/sitemap.xml`.
-2. Create a **Google Business Profile** at the Windhoek address. For "chemical supplier
+2. Create a **Google Business Profile** at the Windhoek address. For "AutoCAD drafting
    Windhoek" this does more than anything on the site itself. Use exactly the same name,
    address and number.
 3. LocalBusiness structured data with the real address and opening hours is already on
    every page.
 
-Titles and descriptions target *industrial chemicals Namibia*, *chemical supplier
-Windhoek*, *roofing sheets Namibia*, *water treatment chemicals Namibia*.
+Titles and descriptions target *AutoCAD drafting Namibia*, *roof sheeting layout Windhoek*,
+*roof sheeting quantity take-off*, *industrial chemicals Namibia*, *specialised sourcing
+Namibia*, *POS implementation Windhoek*.
+
+The three retired pages ranked for chemical and roofing terms. The 301s in `_redirects`
+keep that — **do not remove them**, and do not re-point them at the home page, which throws
+the ranking away.
 
 ---
 
@@ -256,19 +298,52 @@ The copy was written to these limits. Keep them:
 - No certifications — none are held.
 - No invented statistics, client counts or testimonials.
 - No prices and no delivery times.
-- **Puku does not test, formulate, engineer, certify, manufacture or warehouse.** Product
-  suitability, specifications and safety documentation come from the manufacturer. The
-  site says "source", "obtain", "coordinate" and "remain your point of contact" — never
-  "specify", "design" or "test".
-- **No agriculture, livestock or feed advice.** Agriculture was removed as a division; an
-  agricultural product enquiry is handled under Specialised sourcing like any other.
-- **Puku does not manufacture garments.** Clothing and promotional items are "manufactured
-  and branded by the supplier" — Puku sources the options and coordinates the quotation.
-- Branding is limited to what is on `branding.html`: branded clothing and promotional
-  items, business websites, and simple business apps and digital tools. No social media
-  management, SEO packages, paid advertising, video, enterprise software, mobile apps,
-  complex ecommerce, IT support, cybersecurity or AI consulting. Puku is not described as
-  an advertising agency, a software company or an IT consultancy.
+
+**No engineering, of any kind.** This is the sharpest limit on the site.
+
+- No structural engineering, structural design, professional engineering, engineering
+  certification, engineer-approved drawings, lifting-equipment engineering or signed
+  calculations.
+- **No ECN-reserved title.** Not *Engineering Technician*, not *Eng.Tech*, not any
+  variant. The registration application is pending and the title cannot be used until it
+  is approved and the owner confirms it. The site says **Technical drafting** and
+  **Drafting & roof layout services**, and nothing else.
+- The only mention of engineering anywhere is the disclaimer at the foot of
+  `drafting.html`, which disclaims it. Keep that paragraph.
+- 3D SketchUp is described as *being added* — it is not presented as established
+  experience, and Puku is not an architectural visualisation studio.
+
+**No chemical expertise.** Puku is the commercial sourcing link, nothing more.
+
+- No testing, formulation, analysis, treatment-programme design, metallurgical advice or
+  certification of suitability. Technical specifications, application recommendations and
+  safety documentation come from the manufacturer or supplier.
+- The site says "source", "obtain", "coordinate" and "remain your point of contact" —
+  never "specify", "design" or "test".
+- The category list on `sourcing.html` is short on purpose. It describes the areas Puku
+  sources in; it is not a catalogue, and it should not grow into one.
+
+**Nothing outside the three areas.**
+
+- No agriculture, livestock or feed advice. No corporate branding, promotional clothing or
+  corporate gifts. No general building-material supply.
+- Business technology is exactly three things: digital platforms, POS implementation,
+  business systems. No ERP, accounting, payroll, banking or payment infrastructure,
+  cybersecurity, complex integrations or AI consulting. Puku is not an advertising agency,
+  a software house, a managed IT company or a POS support company.
+- **POS is a quoted implementation project.** The page says so: *"POS projects are quoted
+  individually and ongoing support is not included unless specifically agreed."* Never
+  imply open-ended or unlimited support.
+- Window film is one line under other industrial products. It is not a division and must
+  not become one without the owner asking.
+- Selected work names only real, live products. No user numbers, no revenue, no claims of
+  market success.
+- Puku Works is mentioned in one understated sentence on `technology.html`. Do not explain
+  the corporate structure, and do not mention My Tribr Pty Ltd.
+
+**When in doubt, leave it out.** Every past round of this site has drifted by adding
+plausible adjacent services. If it is not already on the site, it needs the owner to ask
+for it by name.
 
 ---
 

@@ -250,10 +250,11 @@ a { color: var(--fg-strong); }
   min-height: 72px;
   margin-bottom: clamp(2rem, 1.4rem + 2.7vw, 3.5rem);
 }
-/* The nav breakpoint is its own number, not the layout's. Six items at label
-   size need ~1024px before they fit on one line; below that the Menu button
-   is correct, even though the page grid has already gone to 12 columns.      */
-@media (min-width: 64rem) { .masthead { min-height: 88px; flex-wrap: nowrap; } }
+/* The nav breakpoint is its own number and only happens to equal the layout's.
+   Five items at label size clear the wordmark by 77px at 896px; a sixth item
+   pushed that to 1024px. Re-measure this if an item is ever added — do not
+   assume 56rem, and do not shorten a label until it just squeezes in.        */
+@media (min-width: 56rem) { .masthead { min-height: 88px; flex-wrap: nowrap; } }
 
 .mark {
   display: flex;
@@ -287,10 +288,10 @@ a { color: var(--fg-strong); }
 }
 .nav a:hover { color: var(--fg-strong); }
 
-@media (min-width: 64rem) {
+@media (min-width: 56rem) {
   .menubtn { display: none; }
   /* The gap tightens as the viewport narrows so the six labels keep clear of
-     the wordmark at 1024px without losing air on a wide screen.              */
+     the wordmark at the breakpoint without losing air on a wide screen.      */
   .nav ul { display: flex; gap: clamp(1.25rem, 0.1rem + 1.8vw, 2rem); }
   .nav a {
     display: flex;
@@ -306,7 +307,7 @@ a { color: var(--fg-strong); }
 
 /* Mobile navigation sits in normal flow and pushes the page down: no
    positioning, no z-index, no scroll lock, no focus trap.                   */
-@media (max-width: 63.999rem) {
+@media (max-width: 55.999rem) {
   .nav {
     display: none;
     width: 100%;
@@ -402,18 +403,36 @@ a { color: var(--fg-strong); }
   .hero__actions .btn { width: 100%; }
 }
 
-/* --- The four divisions --------------------------------------------------- */
+/* --- The divisions -------------------------------------------------------- */
 /* Three cues carry the grouping. The 3px navy rule is the mechanism. The
    asymmetric padding is geometry and survives any colour failure. The white
    plate on tint is reinforcement only — never treat it as the mechanism.    */
 
 .divisions { display: grid; gap: var(--plate-gap); }
 @media (min-width: 40rem) { .divisions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 76rem) { .divisions { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-/* Three-up variants. Equal columns, same rule, same padding — no plate is
-   ever demoted, including the catch-all one.                               */
-@media (min-width: 62rem) { .divisions--three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 76rem) { .divisions--three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* The lead layout. Technical drafting spans the row and gets a wider measure
+   and a larger heading; sourcing and technology share the row below it. The
+   three areas are deliberately NOT equal — do not collapse this to a plain
+   three-up grid, and do not promote another plate into the lead slot.       */
+@media (min-width: 48rem) {
+  .divisions--lead .plate--lead { grid-column: 1 / -1; }
+}
+@media (min-width: 62rem) {
+  .divisions--lead .plate--lead {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    column-gap: var(--col-gap);
+    align-items: start;
+  }
+  .divisions--lead .plate--lead .label { grid-column: 1; grid-row: 1; }
+  .divisions--lead .plate--lead h3 { grid-column: 1; grid-row: 2; }
+  .divisions--lead .plate--lead p { grid-column: 2; grid-row: 1 / 4; margin-top: 0; }
+  .divisions--lead .plate--lead .plate__go { grid-column: 1; grid-row: 3; }
+}
+.plate--lead { padding-block: 24px 36px; }
+.plate--lead h3 { font-size: var(--fs-h2); line-height: 1.1; }
+.plate--lead p { max-width: 46ch; font-size: var(--fs-lead); line-height: 1.45; }
 
 .plate {
   background: var(--white);
@@ -444,34 +463,17 @@ a { color: var(--fg-strong); }
 }
 .plate:hover .plate__go { text-decoration-thickness: 2px; }
 
-/* --- The secondary line --------------------------------------------------- */
-/* Branding and digital work is not an area of supply and must never read as a
-   fourth plate. It gets no white ground and no 3px group rule — a 2px section
-   rule and the tint ground put it a clear tier below the divisions.          */
-
-.also {
-  margin-top: clamp(2.5rem, 1.8rem + 2.8vw, 4rem);
-  border-top: var(--rule-section);
-  padding-top: 28px;
-}
-.also h2 { font-size: var(--fs-h3); margin-top: 12px; }
-.also__body { margin-top: 16px; }
-.also__body p { max-width: 62ch; }
-.also__body p + p { margin-top: 20px; }
-.also__go {
+/* Marks a plate as selective rather than open-ended. It sits above the call to
+   action so the qualification is read before the click, not after it.       */
+.plate__tag {
+  margin-top: 20px;
+  align-self: start;
   font: 400 var(--fs-label)/1.2 var(--mono);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--fg-strong);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-}
-.also__go:hover { text-decoration-thickness: 2px; }
-
-@media (min-width: 56rem) {
-  .also__head { grid-column: 1 / 5; }
-  .also__body { grid-column: 6 / -1; margin-top: 0; }
+  color: var(--slate-2);
+  border: 1px solid var(--line-strong);
+  padding: 6px 10px;
 }
 
 /* --- Steps ---------------------------------------------------------------- */
@@ -560,6 +562,10 @@ a { color: var(--fg-strong); }
 @media (min-width: 56rem) {
   .verify__text { grid-column: 1 / 7; }
   .verify__fig { grid-column: 8 / -1; }
+  /* A key/value list needs more room than a figure does, or every value wraps
+     to four lines in the narrow column.                                      */
+  .verify--work .verify__text { grid-column: 1 / 5; }
+  .verify--work .verify__fig { grid-column: 6 / -1; }
 }
 @media (max-width: 55.999rem) { .verify__fig { margin-top: 32px; } }
 .verify .label { margin-bottom: 16px; }
@@ -595,7 +601,10 @@ a { color: var(--fg-strong); }
 @media (min-width: 40rem) { .form { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .field--wide { grid-column: 1 / -1; }
 
-.field { display: flex; flex-direction: column; margin: 0; }
+/* justify-content pushes the stack to the bottom of its grid cell, so the two
+   controls in a row line up even when only one of them carries a hint. Every
+   control shares the same min-height, so bottom-aligned is top-aligned.     */
+.field { display: flex; flex-direction: column; justify-content: flex-end; margin: 0; }
 .field > label { font: 700 var(--fs-small)/1.4 var(--sans); color: var(--fg-strong); }
 .field > .hint {
   font: 400 var(--fs-label)/1.4 var(--mono);
