@@ -3,12 +3,13 @@
 Five pages of plain HTML, one stylesheet, one small script. No framework, no npm, no
 build step. Open a file in a text editor, change it, push it — Cloudflare redeploys.
 
-About **79 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
+About **82 KB per page** on a first visit, ~40 KB after that once the fonts are cached,
 against a 500 KB target. Zero external requests: no Google Fonts, no CDN, no tracker.
 
 ```
 index.html              Home — hero, the three areas, how we work, about, enquiry
-drafting.html           Technical drafting — AutoCAD 2D, roof sheeting layouts, SketchUp
+drafting.html           Technical drafting — roof layouts & QTOs, outsourced support,
+                        AutoCAD 2D, SketchUp
 sourcing.html           Specialised sourcing — industrial chemicals and other products
 technology.html         Business technology — platforms, POS, business systems
 contact.html            Enquiry form and contact details
@@ -30,7 +31,28 @@ Everything on the site is real. There are no placeholders left to fill in.
 Industrial chemicals are a **subsection of specialised sourcing**, not a division. Roof
 sheeting layouts and QTOs are **drafting work**, not a materials business.
 
-Positioning statement: *Practical technical and business support for Namibian companies.*
+Home hero: *Technical drafting. Specialised sourcing. Practical business systems.*
+
+### What drafting.html is selling
+
+The page is ordered as a sales argument, not as a capability list, and the order carries
+the argument:
+
+1. **Roof sheeting layouts & QTOs** — its own tint band, its own section head, the
+   `.spec--lead` list and the only `.btn--lg` on the site (*Send us your roof drawing*).
+   This is the established service.
+2. **Outsourced drafting support** — a navy band, so it cannot be scrolled past. This is
+   the commercial ask: recurring overflow work from roofing suppliers and contractors
+   rather than one-off private customers. The phrase *ongoing outsourced drafting
+   support* also appears in the hero and must stay visible.
+3. **AutoCAD 2D drafting** — broader work, within demonstrated capability, scope
+   confirmed before quoting.
+4. **3D SketchUp** — a `.minor` block: 1px structural rule, an h3, one sentence, no
+   deliverables list and no call to action. It is a developing capability and must not be
+   given a section head or its own band.
+
+**One `.btn--lg` exists on the whole site.** If a second appears, neither is the primary
+action any more.
 
 ---
 
@@ -49,6 +71,10 @@ rules, labels, focus rings, the accent — inverts automatically on navy. There 
 The home page runs **navy → tint → white → navy → white → navy**. Dark top, dark keel,
 dark tail. That silhouette is what makes the site recognisable at thumbnail size, which
 matters because there is no photography and no icon set.
+
+`drafting.html` carries a second navy band mid-page for the outsourced-drafting ask. That
+is deliberate — a navy band is the strongest thing on a light page and the ask is the
+page's commercial purpose. It is the only interior page that gets one.
 
 Every page opens with a navy band, and the header sits *inside* it. That is why the
 wordmark needs only one colour treatment on the whole site.
@@ -114,6 +140,12 @@ sets a paragraph or a button, the page reads as a retro terminal instead of a su
 
 There is no 600 weight in the repo. Do not specify one: CSS would resolve it up to 700 and
 the tier you intended would silently vanish.
+
+`.hero--wide` is for an `h1` that is a set of sentences rather than a phrase — the home
+page and Specialised sourcing. It steps the size down and widens the measure to 28ch, and
+each sentence is wrapped in `<span class="ln">` so it takes its own line above 56rem and
+reflows normally below it. Without it the default 15ch measure breaks those headings into
+five ragged fragments.
 
 ### And three absolutes
 
@@ -188,13 +220,18 @@ without it. `.assetsignore` keeps the git plumbing, this README and the logo mas
 the published output.
 
 **If you change the CSS, the JS or an image, bump the version token.** Every asset URL
-carries `?v=` — currently `11`. Change it in all six HTML files (search for `?v=`). Without
+carries `?v=` — currently `12`. Change it in all six HTML files (search for `?v=`). Without
 it, a visitor can be served new HTML against a cached old stylesheet, which renders the
 page as a broken hybrid. This has happened once already and it is not obvious when it does.
 
 The share image `assets/img/og.png` carries the same token, because Facebook, LinkedIn and
 WhatsApp cache a preview card by URL — without a new URL they keep showing the old one for
 weeks. If you change its wording, bump the token.
+
+The card reads: the **PUKU** wordmark, then *Technical Drafting · Specialised Sourcing ·
+Business Technology*, then *Practical support for Namibian business.* under a hairline.
+The middle line is set at 32px, which is the largest size that fits the full string inside
+the margins — measure again before renaming any of the three areas.
 
 **The first build after connecting a repository only starts on the next push.** Cloudflare
 says "You can now push a commit to your Git repository to start your first build" and then

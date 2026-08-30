@@ -344,6 +344,18 @@ a { color: var(--fg-strong); }
 .hero .lead { color: var(--fg); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 
+/* Where the h1 is a set of sentences rather than a phrase, it needs a wider
+   measure and a step down in size so each sentence lands on its own line.
+   The default 15ch at --fs-h1 would break it into five ragged fragments.    */
+.hero--wide h1 {
+  font-size: clamp(1.875rem, 1.15rem + 3.1vw, 3rem);
+  letter-spacing: -0.02em;
+  max-width: 28ch;
+}
+/* Each sentence gets its own line once there is room for the longest one.
+   Below that they reflow normally rather than breaking into short stubs.    */
+@media (min-width: 56rem) { .hero--wide h1 .ln { display: block; } }
+
 @media (min-width: 56rem) {
   .hero__grid { align-items: start; }
   .hero__main { grid-column: 1 / 8; }
@@ -397,6 +409,11 @@ a { color: var(--fg-strong); }
 .band--navy .btn--primary:hover { background: var(--tint); }
 .btn--ghost { background: none; color: var(--fg-strong); border-color: var(--fg-2); }
 .btn--ghost:hover { background: var(--navy-deep); border-color: var(--fg-strong); color: var(--white); }
+
+/* One button on the site is bigger than the others: "Send us your roof
+   drawing". Roof sheeting layout work is what the business is selling. If a
+   second btn--lg appears, neither of them is the primary action any more.   */
+.btn--lg { min-height: 64px; padding: 20px 36px; font-size: 1.1875rem; }
 
 @media (max-width: 39.999rem) {
   .hero__actions { flex-direction: column; gap: 10px; }
@@ -546,6 +563,12 @@ a { color: var(--fg-strong); }
 }
 .spec dd, .spec .v { margin: 0; color: var(--fg); max-width: 60ch; }
 
+/* The one deliverables list that is the page's argument rather than a detail:
+   roof sheeting layouts on drafting.html. Larger values, more air, and a 1px
+   navy rule instead of the grey hairline.                                    */
+.spec--lead > :is(li, div) { border-top: var(--rule-struct); padding: 20px 0; }
+.spec--lead dd, .spec--lead .v { font-size: var(--fs-lead); color: var(--fg-strong); }
+
 .apps { display: grid; gap: var(--head-gap); }
 .app__head h2 { margin-bottom: 12px; }
 .app__head .label { margin-bottom: 16px; }
@@ -585,12 +608,34 @@ a { color: var(--fg-strong); }
   max-width: 80ch;
 }
 .note--tight { margin-top: 24px; }
+/* A .keys block already closes on a hairline; a second one directly under it
+   reads as an empty row.                                                    */
+.keys + .note { border-top: 0; padding-top: 0; }
 .app__note {
   margin-top: 16px;
   font-size: var(--fs-small);
   line-height: 1.6;
   color: var(--fg-2);
   max-width: 60ch;
+}
+/* A qualification that has to be read, not just present — the POS support
+   boundary. Bold alone is not enough at --fs-small on a grey.               */
+.app__note strong { color: var(--fg-strong); }
+
+/* --- A developing capability ---------------------------------------------- */
+/* One tier below a section: a 1px structural rule and an h3, no section head,
+   no deliverables list and no call to action. 3D SketchUp is the only user.  */
+
+.minor {
+  margin-top: var(--head-gap);
+  border-top: var(--rule-struct);
+  padding-top: 20px;
+}
+.minor h3 { margin-top: 10px; }
+.minor__body { margin-top: 12px; }
+@media (min-width: 56rem) {
+  .minor__head { grid-column: 1 / 5; }
+  .minor__body { grid-column: 6 / -1; margin-top: 0; }
 }
 .hero__note { margin-top: 20px; color: var(--fg-2); max-width: 46ch; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(2rem, 3vw, 2.5rem); }
